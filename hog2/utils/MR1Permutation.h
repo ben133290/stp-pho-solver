@@ -9,35 +9,23 @@
 #ifndef MR1Permutation_h
 #define MR1Permutation_h
 
-#include <stdio.h>
+#include <cstdio>
 #include <vector>
-#include <stdint.h>
+#include <cstdint>
+
+template <typename T>
+inline void swap(T &a, T &b)
+{
+    T tmp = a;
+    a = b;
+    b = tmp;
+}
 
 class MR1KPermutation {
 public:
-	uint64_t Rank(int *items, int *dual, int k, int N) const;
+	uint64_t Rank(int *locs, int *dual, int distinctSize, int puzzleSize) const;
 	void Unrank(uint64_t hash, int *items, int *dual, int k, int N) const;
 	uint64_t Rank(uint8_t *items, uint8_t *dual, int k, int N) const;
 };
-
-
-//class MR1Permutation {
-//public:
-//	MR1Permutation(std::vector<int> distincts, int permSize, int maxNumThreads);
-//	uint64_t GetMaxRank() const;
-//	uint64_t GetRank(const std::vector<int> &items, int threadID = 0) const;
-//	uint64_t GetRank(const std::vector<int> &items, int threadID = 0);
-//	void Unrank(uint64_t hash, std::vector<int> &items, int threadID = 0) const;
-//private:
-//	std::vector<int> distinct;
-//	size_t puzzleSize;
-//	size_t distinctSize;
-//	uint64_t maxRank;
-//
-//	// cache for computing ranking/unranking
-//	mutable std::vector<std::vector<int> > dualCache;
-//	mutable std::vector<std::vector<int> > locsCache;
-//	mutable std::vector<std::vector<int> > valueStack;
-//};
 
 #endif /* MR1Permutation_h */

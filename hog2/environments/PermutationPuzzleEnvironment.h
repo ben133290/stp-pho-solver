@@ -7,11 +7,12 @@
 #include <cstdio>
 #include <thread>
 #include <deque>
-#include "SearchEnvironment.h"
-#include "Timer.h"
-#include "SharedQueue.h"
-#include "RangeCompression.h"
-#include "MR1Permutation.h"
+#include "../search/SearchEnvironment.h"
+#include "../utils/Timer.h"
+//#include "../utils/MR1Permutation.h"
+//#include "SharedQueue.h"
+//#include "RangeCompression.h"
+#include "../utils/MR1Permutation.h"
 
 #ifndef PERMPUZZ_H
 #define PERMPUZZ_H
@@ -64,7 +65,7 @@ namespace PermutationPuzzle {
 		{ assert(!"Additive Gost used but not defined for this class\n"); }
 		
 		void GetStateFromHash(state &s, uint64_t hash) const;
-		uint64_t GetStateHash(const state &s) const;
+		//uint64_t GetStateHash(const state &s) const;
 		static uint64_t Hash(const state &s)
 		{
 			MR1KPermutation mr1;
@@ -1279,7 +1280,23 @@ namespace PermutationPuzzle {
 		mr1.Unrank(hash, s.puzzle, tmp.puzzle, s.size(), s.size());
 		s.FinishUnranking();
 	}
-	
+
+    /*
+    template<class state, class action>
+    uint64_t PermutationPuzzleEnvironment<state, action>::GetStateHash(const state &s) const
+    {
+        state tmp = s;
+        state dual;
+        for (size_t x = 0; x < tmp.size(); x++)
+            dual.puzzle[tmp.puzzle[x]] = x;
+
+        uint64_t hash = mr1.Rank(&tmp.puzzle[0], &dual.puzzle[0], s.size(), s.size());
+        //mr1.Rank(&tmp.puzzle[0], &dual.puzzle[0], s.size(), s.size());
+        return hash;
+    }
+     */
+
+    /*
 	template <class state, class action>
 	uint64_t PermutationPuzzleEnvironment<state, action>::GetStateHash(const state &s) const
 	{
@@ -1289,8 +1306,11 @@ namespace PermutationPuzzle {
 			dual.puzzle[tmp.puzzle[x]] = x;
 
 		uint64_t hash = mr1.Rank(&tmp.puzzle[0], &dual.puzzle[0], s.size(), s.size());
+                //mr1.Rank(&tmp.puzzle[0], &dual.puzzle[0], s.size(), s.size());
 		return hash;
 	}
+    */
+
 	
 	template <class state, class action>
 	state PermutationPuzzleEnvironment<state, action>::TranformToStandardGoal(const state &a, const state &b) const

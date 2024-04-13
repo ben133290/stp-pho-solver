@@ -13,13 +13,11 @@
 #ifndef UNITGROUP_H
 #define UNITGROUP_H
 
-#include "BitVector.h"
-#include "Map.h"
-//#include "MapAbstraction.h"
+#include "../utils/BitVector.h"
+#include "../utils/Map.h"
 #include "ReservationProvider.h"
-//#include "MapProvider.h"
 #include "UnitSimulation.h"
-#include "StatCollection.h"
+#include "../utils/StatCollection.h"
 
 template <class state, class action, class environment>
 class Unit;

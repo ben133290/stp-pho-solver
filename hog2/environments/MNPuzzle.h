@@ -10,14 +10,15 @@
 #ifndef MNPUZZLE_H
 #define MNPUZZLE_H
 
-#include <stdint.h>
+#include <cstdint>
 #include <iostream>
-#include "SearchEnvironment.h"
+#include "../search/SearchEnvironment.h"
 #include "PermutationPuzzleEnvironment.h"
-#include "UnitSimulation.h"
+#include "../simulation/UnitSimulation.h"
 #include "GraphEnvironment.h"
-#include "Graph.h"
+#include "../graph/Graph.h"
 #include "GraphEnvironment.h"
+#include "../utils/GLUtil.h"
 #include <sstream>
 #include <array>
 
@@ -1155,7 +1156,7 @@ void MNPuzzle<width, height>::Draw(Graphics::Display &display, const MNPuzzleSta
 	}
 }
 
-
+/*
 template <int width, int height>
 void MNPuzzle<width, height>::OpenGLDraw(const MNPuzzleState<width, height> &s) const
 {
@@ -1211,6 +1212,7 @@ void MNPuzzle<width, height>::OpenGLDraw(const MNPuzzleState<width, height> &s1,
 	}
 	DrawFrame(width, height);
 }
+ */
 
 /**
  Reads in MNPuzzle states from the given filename. Each line of the
@@ -1257,15 +1259,16 @@ int MNPuzzle<width, height>::read_in_mn_puzzles(const char *filename, bool puzz_
 	return 0;
 }
 
+/* TAKEN OUT BY BEN
 template <int width, int height>
 GraphPuzzleDistanceHeuristic<width, height>::GraphPuzzleDistanceHeuristic(MNPuzzle<width, height> &mnp, Graph *graph, int count)
 :GraphDistanceHeuristic(graph), puzzle(mnp)
 {
-	for (int x = 0; x < count /*10*/; x++)
+	for (int x = 0; x < count; x++)
 	{
 		AddHeuristic();
 	}
-}
+}*/
 
 template <int width, int height>
 double GraphPuzzleDistanceHeuristic<width, height>::HCost(const graphState &state1, const graphState &state2) const
@@ -1471,7 +1474,7 @@ unsigned MNPuzzle<width, height>::GetParity(const MNPuzzleState<width, height> &
 	return (swaps + (width*height-state.blank-1)/width)%2;
 }
 
-template <int width, int height>
+/*template <int width, int height>
 void MNPuzzle<width, height>::Create_Random_MN_Puzzles(MNPuzzleState<width, height> &goal, std::vector<MNPuzzleState<width, height>> &puzzle_vector, unsigned num_puzzles)
 {
 	std::map<uint64_t, uint64_t> puzzle_map; // used to ensure uniqueness
@@ -1501,6 +1504,7 @@ void MNPuzzle<width, height>::Create_Random_MN_Puzzles(MNPuzzleState<width, heig
 		
 	}
 }
+*/
 
 template <int width, int height>
 bool MNPuzzle<width, height>::State_Check(const MNPuzzleState<width, height> &to_check)

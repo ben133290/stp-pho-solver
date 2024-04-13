@@ -27,7 +27,7 @@
 // 	virtual bool ClearStates() = 0;
 // };
 
-#include "Graph.h"
+#include "../graph/Graph.h"
 class unit;
 
 class reservationProvider {

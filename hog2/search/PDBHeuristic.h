@@ -15,10 +15,10 @@
 #include <cinttypes>
 
 #include "Heuristic.h"
-#include "SharedQueue.h"
-#include "NBitArray.h"
-#include "Timer.h"
-#include "RangeCompression.h"
+#include "../utils/SharedQueue.h"
+#include "../utils/NBitArray.h"
+#include "../utils/Timer.h"
+#include "../utils/RangeCompression.h"
 
 enum PDBLookupType {
 	kPlain,
@@ -60,7 +60,6 @@ public:
 		goalSet = true;
 	}
 
-	
 	virtual double HCost(const state &a, const state &b) const;
 
 	virtual uint64_t GetPDBSize() const = 0;
@@ -159,6 +158,7 @@ private:
 									 std::mutex *lock);
 };
 
+// Parameter state b not used
 template <class abstractState, class abstractAction, class abstractEnvironment, class state, uint64_t pdbBits>
 double PDBHeuristic<abstractState, abstractAction, abstractEnvironment, state, pdbBits>::HCost(const state &a, const state &b) const
 {

@@ -15,10 +15,10 @@
 #include <vector>
 #include <queue>
 #include "Unit.h"
-#include "Timer.h"
-#include "FPUtil.h"
-#include "StatCollection.h"
-#include "SearchEnvironment.h"
+#include "../utils/Timer.h"
+#include "../utils/FPUtil.h"
+#include "../utils/StatCollection.h"
+#include "../search/SearchEnvironment.h"
 #include "OccupancyInterface.h"
 #include "SimulationInfo.h"
 

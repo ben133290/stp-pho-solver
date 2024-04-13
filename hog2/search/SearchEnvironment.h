@@ -15,9 +15,9 @@
 //#include "ReservationProvider.h"
 #include <assert.h>
 #include "Heuristic.h"
-#include "OccupancyInterface.h"
-#include "GLUtil.h"
-#include "Graphics.h"
+#include "../simulation/OccupancyInterface.h"
+#include "../utils/GLUtil.h"
+//#include "Graphics.h"
 
 
 struct Hash64 {
@@ -91,9 +91,9 @@ public:
 	virtual void SetOccupancyInfo(OccupancyInterface<state,action> *)
 	{ }
 
+    /*
 	virtual void OpenGLDraw() const {};
 	virtual void OpenGLDraw(const state&) const {};
-	/** Draw the transition at some percentage 0...1 between two states */
 	virtual void OpenGLDraw(const state&, const state&, float) const {}
 	virtual void OpenGLDraw(const state&, const action&) const {};
 	virtual void GLLabelState(const state&, const char *) const {} // draw label over state
@@ -107,12 +107,12 @@ public:
 	virtual void Draw(Graphics::Display &display) const {}
 	virtual void Draw(Graphics::Display &display, const state&) const {}
 	virtual void DrawLine(Graphics::Display &display, const state &x, const state &y, float width = 1.0) const {}
-
+    */
 protected:
 	bool bValidSearchGoal;
 	state searchGoal;
-	mutable rgbColor color;
-	mutable GLfloat transparency;
+	//mutable rgbColor color;
+	//mutable GLfloat transparency;
 };
 
 
@@ -166,13 +166,5 @@ double SearchEnvironment<state,action>::GetPathLength(const state &start, std::v
 
 
 
-template <class state, class action>
-void SearchEnvironment<state,action>::GLDrawPath(const std::vector<state> &path) const
-{
-	for (unsigned int x = 0; x+1 < path.size(); x++)
-	{
-		GLDrawLine(path[x], path[x+1]);
-	}
-}
 
 #endif

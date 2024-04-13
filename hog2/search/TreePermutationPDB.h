@@ -25,7 +25,7 @@ public:
 	virtual uint64_t GetPDBHash(const state &s, int threadID = 0) const;
 	virtual void GetStateFromPDBHash(uint64_t hash, state &s, int threadID = 0) const;
 	virtual uint64_t GetAbstractHash(const state &s, int threadID = 0) const { return GetPDBHash(s); }
-	virtual state GetStateFromAbstractState(state &s) { return s; }
+	virtual state GetStateFromAbstractState(state &s) const { return s; }
 
 	std::string GetFileName(const char *prefix);
 private:

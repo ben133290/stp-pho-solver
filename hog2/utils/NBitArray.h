@@ -9,8 +9,8 @@
 #ifndef hog2_glut_NBitArray_h
 #define hog2_glut_NBitArray_h
 
-#include <stdint.h>
-#include <string.h>
+#include <cstdint>
+#include <cstring>
 #include <algorithm>
 #include <cinttypes>
 
