@@ -1,0 +1,3 @@
+/Users/ben/Dropbox/Studium/FS24/Bachelorarbeit/Implementation/stp-pho-solver/cmake-build-debug/CMakeFiles/stp_pho_solver.dir
+/Users/ben/Dropbox/Studium/FS24/Bachelorarbeit/Implementation/stp-pho-solver/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/ben/Dropbox/Studium/FS24/Bachelorarbeit/Implementation/stp-pho-solver/cmake-build-debug/CMakeFiles/rebuild_cache.dir

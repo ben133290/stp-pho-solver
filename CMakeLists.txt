@@ -3,4 +3,6 @@ project(stp_pho_solver)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(stp_pho_solver main.cpp)
+add_executable(stp_pho_solver main.cpp
+        hog2/utils/Timer.cpp
+        hog2/utils/NBitArray.cpp)

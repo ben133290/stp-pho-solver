@@ -1,0 +1,20 @@
+# ninja log v5
+2	2430	1713000951089369575	CMakeFiles/stp_pho_solver.dir/main.cpp.o	538d92d9ce1b04bd
+2740	2817	1713000532684362593	stp_pho_solver	6aef79982c321711
+3	531	1713006443096601527	CMakeFiles/stp_pho_solver.dir/hog2/utils/Timer.cpp.o	1c8bda44b5fbf12
+6	277	1713006495794946879	CMakeFiles/stp_pho_solver.dir/hog2/utils/NBitArray.cpp.o	c6d337dbaaece6af
+278	348	1713006495866810361	stp_pho_solver	f2c44bc85769c57c
+3	2669	1713007222173712441	CMakeFiles/stp_pho_solver.dir/main.cpp.o	538d92d9ce1b04bd
+2672	2755	1713007222269518655	stp_pho_solver	f2c44bc85769c57c
+2	2623	1713009968783216302	CMakeFiles/stp_pho_solver.dir/main.cpp.o	538d92d9ce1b04bd
+2625	2688	1713009968859358321	stp_pho_solver	f2c44bc85769c57c
+2	2633	1713010260109211971	CMakeFiles/stp_pho_solver.dir/main.cpp.o	538d92d9ce1b04bd
+2635	2693	1713010260178948801	stp_pho_solver	f2c44bc85769c57c
+4	2852	1713010568653587266	CMakeFiles/stp_pho_solver.dir/main.cpp.o	538d92d9ce1b04bd
+2854	2931	1713010568744098022	stp_pho_solver	f2c44bc85769c57c
+2	2525	1713010587312068766	CMakeFiles/stp_pho_solver.dir/main.cpp.o	538d92d9ce1b04bd
+2526	2595	1713010587393962229	stp_pho_solver	f2c44bc85769c57c
+3	2805	1713010792783013030	CMakeFiles/stp_pho_solver.dir/main.cpp.o	538d92d9ce1b04bd
+2807	2867	1713010792855238795	stp_pho_solver	f2c44bc85769c57c
+14	2825	1713011143217601973	CMakeFiles/stp_pho_solver.dir/main.cpp.o	538d92d9ce1b04bd
+2826	2889	1713011143292650167	stp_pho_solver	f2c44bc85769c57c
