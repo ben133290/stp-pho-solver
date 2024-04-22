@@ -10,8 +10,10 @@ int main(int argc, char *argv[]) {
     CLI::App app{"Post hoc optimization solver for sliding tile puzzle"};
     argv = app.ensure_utf8(argv);
     app.add_option("-s", startState, "Specify a start state");
+    app.add_option("-n", startState, "Specify the number of patterns");
     app.add_option("--pdbPathPrefix", pdbPath, "Specify the path to the folder where your .pdb files are located");
-    app.add_option("--pattern", pattern, "Specify a pattern to use/search");
+    app.add_option("--pattern", patterns, "Specify a pattern to use/search");
+    app.add_option("-p", patterns, "Specify a pattern to use/search");
     CLI11_PARSE(app, argc, argv);
 
     // parse start state
@@ -27,24 +29,28 @@ int main(int argc, char *argv[]) {
 
     // DEBUG
     std::cout << "Start state: " << input << std::endl;
-    std::cout << "Pattern: ";
-    for (int n: pattern) {
-        std::cout << n << " ";
+
+    std::vector<LexPermutationPDB<MNPuzzleState<GRID_SIZE, GRID_SIZE>, slideDir, MNPuzzle<GRID_SIZE, GRID_SIZE>>> heuristicVec;
+
+    for (const std::vector<int> &pattern: patterns) {
+        // Load PDB
+        LexPermutationPDB<MNPuzzleState<GRID_SIZE, GRID_SIZE>, slideDir, MNPuzzle<GRID_SIZE, GRID_SIZE>> permutationPdb(
+                &mnp, goal, pattern);
+        std::cout << "Path to pdb: " << pdbPath << permutationPdb.GetFileName(pdbPath.c_str()) << std::endl;
+        std::cout << "Attempting to load pattern: ";
+        for (int i : pattern) {
+            std::cout << i << " ";
+        }
+        std::cout << std::endl;
+        LoadSTPPDB<GRID_SIZE, GRID_SIZE>(permutationPdb);
+
+        heuristicVec.push_back(permutationPdb);
     }
-    std::cout << std::endl;
+    MaxPDBHeuristic<MNPuzzleState<GRID_SIZE, GRID_SIZE>, slideDir, MNPuzzle<GRID_SIZE, GRID_SIZE>> maxPdbHeuristic(heuristicVec);
 
-    //
-    LexPermutationPDB<MNPuzzleState<GRID_SIZE, GRID_SIZE>, slideDir, MNPuzzle<GRID_SIZE, GRID_SIZE>> permutationPdb(
-            &mnp, goal, pattern);
-
-
-    std::cout << "Path to pdb: " << pdbPath << std::endl;
-    LoadSTPPDB<GRID_SIZE, GRID_SIZE>(permutationPdb);
-
-    // IDAstar
+    // IDAstar 37454
     std::cout << input << std::endl << goal << std::endl;
-
-    idaStar.SetHeuristic(&permutationPdb);
+    idaStar.SetHeuristic(&maxPdbHeuristic);
     idaStar.GetPath(&mnp, input, goal, path);
 
     // Print Solution

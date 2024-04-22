@@ -10,6 +10,7 @@
 #include "../hog2/generic/IDAStar.h"
 #include "../cli/CLI11.hpp"
 #include "../hog2/search/LexPermutationPDB.h"
+#include "MaxPDBHeuristic.h"
 
 #define GRID_SIZE 4
 
@@ -25,7 +26,8 @@ MNPuzzleState<GRID_SIZE, GRID_SIZE> goal;
 MNPuzzleState<GRID_SIZE, GRID_SIZE> input;
 
 std::vector<slideDir> path;
-std::vector<int> pattern;
+std::vector<int> inputpattern;
+std::vector<std::vector<int>> patterns;
 
 IDAStar<MNPuzzleState<GRID_SIZE, GRID_SIZE>, slideDir, true> idaStar;
 
