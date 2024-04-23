@@ -32,6 +32,7 @@ int main(int argc, char *argv[]) {
 
     std::vector<LexPermutationPDB<MNPuzzleState<GRID_SIZE, GRID_SIZE>, slideDir, MNPuzzle<GRID_SIZE, GRID_SIZE>>> heuristicVec;
 
+    heuristicVec.reserve(patterns.size());
     for (const std::vector<int> &pattern: patterns) {
         // Load PDB
         LexPermutationPDB<MNPuzzleState<GRID_SIZE, GRID_SIZE>, slideDir, MNPuzzle<GRID_SIZE, GRID_SIZE>> permutationPdb(
@@ -46,7 +47,7 @@ int main(int argc, char *argv[]) {
 
         heuristicVec.push_back(permutationPdb);
     }
-    MaxPDBHeuristic<MNPuzzleState<GRID_SIZE, GRID_SIZE>, slideDir, MNPuzzle<GRID_SIZE, GRID_SIZE>> maxPdbHeuristic(heuristicVec);
+    MaxPDBHeuristic<MNPuzzleState<GRID_SIZE, GRID_SIZE>, slideDir, MNPuzzle<GRID_SIZE, GRID_SIZE>> maxPdbHeuristic(std::move(heuristicVec));
 
     // IDAstar 37454
     std::cout << input << std::endl << goal << std::endl;

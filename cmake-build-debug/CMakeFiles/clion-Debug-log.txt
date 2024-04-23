@@ -1,4 +1,18 @@
-/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/Applications/CLion.app/Contents/bin/ninja/mac/aarch64/ninja -G Ninja -S /Users/ben/Dropbox/Studium/FS24/Bachelorarbeit/Implementation/stp-pho-solver -B /Users/ben/Dropbox/Studium/FS24/Bachelorarbeit/Implementation/stp-pho-solver/cmake-build-debug
+/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/Applications/CLion.app/Contents/bin/ninja/mac/aarch64/ninja -D cplex_DIR=/Applications/CPLEX_Studio2211/cplex -G Ninja -S /Users/ben/Dropbox/Studium/FS24/Bachelorarbeit/Implementation/stp-pho-solver -B /Users/ben/Dropbox/Studium/FS24/Bachelorarbeit/Implementation/stp-pho-solver/cmake-build-debug
+CMake Warning at FindCplex.cmake:186 (message):
+  include: /Applications/CPLEX_Studio2211/cplex/include/ilcplex
+Call Stack (most recent call first):
+  CMakeLists.txt:26 (find_package)
+
+
+CMake Warning at FindCplex.cmake:187 (message):
+  libraries:
+  /Applications/CPLEX_Studio2211/cplex/bin/x86-64_osx/libcplex2211.dylib
+  /Applications/CPLEX_Studio2211/cplex/bin/x86-64_osx/libcplex2211.dylib
+Call Stack (most recent call first):
+  CMakeLists.txt:26 (find_package)
+
+
 -- Configuring done (0.0s)
 -- Generating done (0.0s)
 -- Build files have been written to: /Users/ben/Dropbox/Studium/FS24/Bachelorarbeit/Implementation/stp-pho-solver/cmake-build-debug
