@@ -18,7 +18,6 @@ public:
     explicit MaxPDBHeuristic(std::vector<LexPermutationPDB<state, actions, environment>> &&heuristics);
     double HCost(const state &s1, const state &s2) const;
     std::vector<LexPermutationPDB<state, actions, environment>> heuristicVec;
-
 };
 
 template<class state, class actions, class environment>

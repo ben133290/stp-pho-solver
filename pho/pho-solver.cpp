@@ -44,6 +44,7 @@ int main(int argc, char *argv[]) {
         }
         std::cout << std::endl;
         LoadSTPPDB<GRID_SIZE, GRID_SIZE>(permutationPdb);
+        if (permutationPdb.)
 
         heuristicVec.push_back(permutationPdb);
     }
