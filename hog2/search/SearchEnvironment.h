@@ -16,7 +16,7 @@
 #include <assert.h>
 #include "Heuristic.h"
 #include "../simulation/OccupancyInterface.h"
-#include "../utils/GLUtil.h"
+//#include "../utils/GLUtil.h"
 //#include "Graphics.h"
 
 

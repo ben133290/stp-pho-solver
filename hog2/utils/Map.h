@@ -23,7 +23,7 @@
 #include <iostream>
 #include <stdint.h>
 
-#include "GLUtil.h"
+//#include "GLUtil.h"
 //#include "Graph.h"
 
 enum tTileset {
@@ -207,38 +207,10 @@ public:
 	bool CanStep(long x1, long y1, long x2, long y2) const;
 	
 	void OpenGLDraw(tDisplay how = kPolygons) const;
-	bool GetOpenGLCoord(int _x, int _y, GLdouble &x, GLdouble &y, GLdouble &z, GLdouble &radius) const;
-	bool GetOpenGLCoord(float _x, float _y, GLdouble &x, GLdouble &y, GLdouble &z, GLdouble &radius) const;
-	void GetPointFromCoordinate(point3d loc, int &px, int &py) const;
-	double GetCoordinateScale();
-	
-	void SetDrawLand(bool land);
-	bool GetDrawLand() { return drawLand; }
-	void DrawTile(Tile *t, int x, int y, tDisplay how) const;
-	void DoVertexColor(tTerrain type, int height, bool darken = false) const;
-	void DoNormal(tSplit split, halfTile *t, int x, int y) const;
-	
-	float GetEdgeWidthX(int x, int y);
-	float GetEdgeWidthY(int x, int y);
-	
-	int GetNodeNum(int x, int y, tCorner c = kNone);
-	void SetNodeNum(int num, int x, int y, tCorner c = kNone);
-	int GetRevision() { return revision; }
-private:
-	void loadRaw(FILE *f, int height, int width);
-	void loadOctile(FILE *f, int height, int width);
-	void loadOctileCorner(FILE *f, int height, int width);
-	void saveOctile(FILE *f);
-	void saveRaw(FILE *f);
-	bool tryLoadRollingStone(FILE *f);
-	bool tryDragonAge(FILE *f);
-	bool isLegalStone(char c);
-	void paintRoomInside(int x, int y);
-	void drawLandQuickly() const;
 	int width, height;
 	Tile **land;
 	bool drawLand;
-	mutable GLuint dList;
+	//mutable GLuint dList;
 	mutable bool updated;
 	int sizeMultiplier;
 	int revision;

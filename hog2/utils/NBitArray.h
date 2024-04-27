@@ -112,7 +112,7 @@ bool NBitArray<numBits>::Equal(const NBitArray &compare) const
 		if (mem[x] != compare.mem[x])
 			return false;
 	}
-#pragma message("Last bits are not being tested properly")
+//#pragma message("Last bits are not being tested properly")
 	// TODO: figure out how many remaining entries are left, and
 	// only compare relevant bits
 	return true;

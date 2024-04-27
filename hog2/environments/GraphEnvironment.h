@@ -15,7 +15,7 @@
 #include "../simulation/UnitSimulation.h"
 #include "../graph/Graph.h"
 //#include "GraphAbstraction.h"
-#include "../utils/GLUtil.h"
+//#include "../utils/GLUtil.h"
 
 #include <iostream>
 #include <stdint.h>
@@ -58,7 +58,7 @@ namespace GraphSearchConstants
 	};
 
 	const double kStraightEdgeCost = 1.0;
-	const double kDiagonalEdgeCost = ROOT_TWO;
+	//const double kDiagonalEdgeCost = ROOT_TWO;
 
 	Graph *GetEightConnectedGraph(Map *m, bool directed = true);
 	Graph *GetFourConnectedGraph(Map *m, bool directed = true);
@@ -68,7 +68,7 @@ namespace GraphSearchConstants
 	void AddEdges(Map *m, Graph *g, int x, int y,
 				  bool directed = true,
 				  double straigtEdgeCost = 1.0,
-				  double diagEdgeCost = ROOT_TWO,
+				  //double diagEdgeCost = ROOT_TWO,
 				  int straightEdgeProb = 100,
 				  int diagEdgeProb = 100);
 }
@@ -118,27 +118,6 @@ public:
 	}
 private:
 	graphState goal;
-	Graph *g;
-};
-
-class GraphMapHeuristic : public GraphHeuristic {
-public:
-	GraphMapHeuristic(Map *map, Graph *graph)
-	:m(map), g(graph) {}
-	Graph *GetGraph() { return g; }
-	double HCost(const graphState &state1, const graphState &state2) const
-	{
-		int x1 = g->GetNode(state1)->GetLabelL(GraphSearchConstants::kMapX);
-		int y1 = g->GetNode(state1)->GetLabelL(GraphSearchConstants::kMapY);
-		int x2 = g->GetNode(state2)->GetLabelL(GraphSearchConstants::kMapX);
-		int y2 = g->GetNode(state2)->GetLabelL(GraphSearchConstants::kMapY);
-
-		double a = ((x1>x2)?(x1-x2):(x2-x1));
-		double b = ((y1>y2)?(y1-y2):(y2-y1));
-		return (a>b)?(b*ROOT_TWO+a-b):(a*ROOT_TWO+b-a);
-	}
-private:
-	Map *m;
 	Graph *g;
 };
 
@@ -321,19 +300,6 @@ public:
 	std::string SVGDraw() const;
 	std::string SVGDraw(const graphState &s) const;
 	std::string SVGLabelState(const graphState &s, const char *) const;
-
-	virtual void Draw(Graphics::Display &disp) const;
-	void DrawLERP(Graphics::Display &disp, Graph *a, Graph *b, float mix) const;
-	void DrawLERP(Graphics::Display &disp, Graph *a, Graph *b, float mix, std::function<float(float, float, float)> l1, std::function<float(float, float, float)> l2) const;
-	void DrawLERP(Graphics::Display &disp, Graph *a, Graph *b, graphState sa, graphState sb, float mix,
-				  std::function<float(float, float, float)> l1,
-				  std::function<float(float, float, float)> l2) const;
-
-	virtual void Draw(Graphics::Display &disp, const graphState &l) const;
-	virtual void DrawStateLabel(Graphics::Display &disp, const graphState &l1, const char *txt) const;
-	virtual void DrawLine(Graphics::Display &disp, const graphState &x, const graphState &y, double width = 1.0) const;
-	virtual void DrawLine(Graphics::Display &disp, float x1, float y1, float x2, float y2, double width = 1.0) const;
-	Graphics::point GetLocation(const graphState &s) const;
 	Graph *GetGraph() { return g; };
 
 	virtual void StoreGoal(graphState &) {}

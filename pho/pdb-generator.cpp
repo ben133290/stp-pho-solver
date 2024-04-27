@@ -19,5 +19,6 @@ int main(int argc, char *argv[]) {
 void initCLI(char **&argv, CLI::App &app) {
     argv = app.ensure_utf8(argv);
     app.add_option("--pattern", pattern, "Specify a pattern for pdb");
+    app.add_option("-p", pattern, "Specify a pattern for pdb");
     app.add_option("--path", pdbPath, "Specify the path where the file should be saved");
 }

@@ -23,7 +23,7 @@ template <class state, class action, class environment>
 class Unit {
 public:
 	//	Unit(state s, Unit<state, action, env> *target);
-	Unit() :speed(0), group(0) { SetColor(1.0, 0.0, 0.0); priority = 999; }
+	Unit() :speed(0), group(0) { priority = 999; }
 	virtual ~Unit() { SetUnitGroup(0); }
 	virtual const char *GetName() = 0;
 	virtual bool MakeMove(environment *, OccupancyInterface<state,action> *, SimulationInfo<state,action,environment> *, action& a) = 0;
@@ -41,8 +41,8 @@ public:
 	/** log any final one-time stats before a simulation is ended */
 	virtual void LogFinalStats(StatCollection *) {}
 	
-	virtual void SetColor(GLfloat _r, GLfloat _g, GLfloat _b) { r=_r; g=_g; b=_b; }
-	virtual void GetColor(GLfloat& _r, GLfloat& _g, GLfloat& _b) const { _r=r; _g=g; _b=b; }
+	//virtual void SetColor(GLfloat _r, GLfloat _g, GLfloat _b) { r=_r; g=_g; b=_b; }
+	//virtual void GetColor(GLfloat& _r, GLfloat& _g, GLfloat& _b) const { _r=r; _g=g; _b=b; }
 	
 	UnitGroup<state, action, environment> *GetUnitGroup() { return group; }
 	void SetUnitGroup(UnitGroup<state, action, environment> *_group)
@@ -83,7 +83,7 @@ private:
 	double speed;
 	int priority;
 	UnitGroup<state, action, environment> *group;
-	GLfloat r, g, b;
+	//GLfloat r, g, b;
 	unsigned int unitid;
 };
 
