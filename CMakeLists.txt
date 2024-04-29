@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.27)
+cmake_minimum_required(VERSION 3.23)
 project(stp_pho_solver)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -23,5 +23,8 @@ add_executable(stp_pdb_generator pho/pdb-generator.cpp
 
 add_executable(cplex-solver pho/cplexSolver.cpp)
 
+add_executable(lp-solver pho/PhOLPSolver.cpp)
+
 find_package(Cplex REQUIRED)
 target_link_libraries(cplex-solver PRIVATE cplex::cplex)
+target_link_libraries(lp-solver PRIVATE cplex::cplex)

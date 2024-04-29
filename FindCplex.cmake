@@ -183,8 +183,6 @@ foreach(CONFIG_ORIG ${IMPORTED_CONFIGURATIONS})
     endif()
     endforeach()
 
-message(WARNING "include: ${CPLEX_INCLUDE_DIRS}")
-message(WARNING "libraries: ${CPLEX_LIBRARY_DEBUG} ${CPLEX_LIBRARY_RELEASE}")
 
 # Check if everything was found and set CPLEX_FOUND.
 include(FindPackageHandleStandardArgs)

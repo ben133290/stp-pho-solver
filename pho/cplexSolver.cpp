@@ -65,7 +65,7 @@ populatebyrow (CPXENVptr env, CPXLPptr lp)
 
     return (status);
 
-}  /* END populatebyrow */
+}  /* END populateByRow */
 
 void handle_cplex_error(CPXENVptr env, int status) {
     abort();
@@ -100,7 +100,7 @@ int main(int argc, char *argv[]) {
     CPXLPptr lp = createProblem(env, "name");
 
     CPXsetintparam(env, CPXPARAM_ScreenOutput, CPX_ON);
-    populatebyrow(env, lp);
+    populateByRow(env, lp);
     CPX_CALL(CPXlpopt, env, lp);
     double value;
     CPX_CALL(CPXgetobjval, env, lp, &value);
