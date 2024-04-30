@@ -4,6 +4,8 @@
 #SBATCH --ntasks 1
 #SBATCH --cpus-per-task 36
 #SBATCH --mem 10G
+#SBATCH --partition infai_1
+#SBATCH --nice 5000
 
 
 echo STARTING AT `date`

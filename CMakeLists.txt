@@ -17,14 +17,17 @@ add_executable(stp_pho_solver pho/pho-solver.cpp
         hog2/utils/NBitArray.cpp
         pho/MaxPDBHeuristic.h)
 
+
+
 add_executable(stp_pdb_generator pho/pdb-generator.cpp
         hog2/utils/Timer.cpp
         hog2/utils/NBitArray.cpp)
 
-add_executable(cplex-solver pho/cplexSolver.cpp)
+find_package(Threads REQUIRED)
+target_link_libraries(stp_pho_solver PUBLIC Threads::Threads)
+target_link_libraries(stp_pdb_generator PUBLIC Threads::Threads)
 
-add_executable(lp-solver pho/PhOLPSolver.cpp)
+add_executable(lp-solver pho/LPSolver.cpp)
 
 find_package(Cplex REQUIRED)
-target_link_libraries(cplex-solver PRIVATE cplex::cplex)
 target_link_libraries(lp-solver PRIVATE cplex::cplex)
