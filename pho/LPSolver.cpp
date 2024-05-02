@@ -81,12 +81,24 @@ CPXLPptr LPSolver::createProblem(const std::string &name) {
 }
 
 void LPSolver::handle_cplex_error(CPXENVptr env, int status) {
+    std::cout << "An Error occured in a CPLEX Call :(" << std::endl;
     abort();
 }
 
 double LPSolver::solve(const std::vector<double> &rhs) {
 
+    // SET RHS
+    std::vector<int> indices;
+    indices.reserve(rhs.size());
+    for (int i = 0; i < rhs.size(); i++) {
+        indices.push_back(i);
+    }
+    CPX_CALL(CPXchgrhs, env, lp, rhs.size(), indices.data(), rhs.data());
+
+    // SOLVE
     CPX_CALL(CPXlpopt, env, lp);
+
+    // GET RESULT
     double value;
     CPX_CALL(CPXgetobjval, env, lp, &value);
     std::cout << "result: " << value << std::endl;
@@ -114,6 +126,10 @@ int main(int argc, char *argv[]) {
     heuristics.push_back(20);
     heuristics.push_back(10);
     LPSolver lpSolver(2, 2, 4, patterns, heuristics);
-    std::cout << "result: " << lpSolver.solve(heuristics) << std::endl;
+
+    std::vector<double> heuristics2;
+    heuristics2.push_back(10);
+    heuristics2.push_back(10);
+    std::cout << "result: " << lpSolver.solve(heuristics2) << std::endl;
     return 0;
 }

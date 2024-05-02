@@ -1,16 +1,16 @@
 //
-// Created by Benedikt Heuser on 18.04.24.
+// Created by heuser0000 on 5/2/24.
 //
 
-#ifndef STP_PHO_SOLVER_PHO_SOLVER_H
-#define STP_PHO_SOLVER_PHO_SOLVER_H
+#ifndef STP_PHO_SOLVER_MAX_PDB_SOLVER_H
+#define STP_PHO_SOLVER_MAX_PDB_SOLVER_H
 
 #include <iostream>
 #include "../hog2/environments/MNPuzzle.h"
 #include "../hog2/generic/IDAStar.h"
 #include "../cli/CLI11.hpp"
 #include "../hog2/search/LexPermutationPDB.h"
-#include "PHOHeuristic.h"
+#include "MaxPDBHeuristic.h"
 
 #define GRID_SIZE 4
 
@@ -32,7 +32,7 @@ std::vector<std::vector<int>> patterns;
 IDAStar<MNPuzzleState<GRID_SIZE, GRID_SIZE>, slideDir, true> idaStar;
 
 template<int width, int height>
-int LoadSTPPDB(LexPermutationPDB<MNPuzzleState<width, height>, slideDir, MNPuzzle<width, height>> &pdb) {
+void LoadSTPPDB(LexPermutationPDB<MNPuzzleState<width, height>, slideDir, MNPuzzle<width, height>> &pdb) {
     if (pdb.Load(pdbPath.c_str())) {
         printf("Loaded successfully\n");
         pdb.PrintHistogram();
@@ -40,9 +40,8 @@ int LoadSTPPDB(LexPermutationPDB<MNPuzzleState<width, height>, slideDir, MNPuzzl
         if (compression != 1) {
             pdb.DivCompress(compression, true);
         }
-        return 0;
+        return;
     }
-    return 1;
 }
 
-#endif //STP_PHO_SOLVER_PHO_SOLVER_H
+#endif //STP_PHO_SOLVER_MAX_PDB_SOLVER_H

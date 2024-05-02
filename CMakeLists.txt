@@ -17,7 +17,10 @@ add_executable(stp_pho_solver pho/pho-solver.cpp
         hog2/utils/NBitArray.cpp
         pho/MaxPDBHeuristic.h)
 
-
+add_executable(max_pdb_solver pho/max-pdb-solver.cpp
+        hog2/utils/Timer.cpp
+        hog2/utils/NBitArray.cpp
+        pho/MaxPDBHeuristic.h)
 
 add_executable(stp_pdb_generator pho/pdb-generator.cpp
         hog2/utils/Timer.cpp
@@ -31,3 +34,4 @@ add_executable(lp-solver pho/LPSolver.cpp)
 
 find_package(Cplex REQUIRED)
 target_link_libraries(lp-solver PRIVATE cplex::cplex)
+target_link_libraries(stp_pho_solver PRIVATE cplex::cplex)

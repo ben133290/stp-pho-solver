@@ -1,6 +1,10 @@
-#define OS_MAC
+//
+// Created by heuser0000 on 5/2/24.
+//
 
-#include "pho-solver.h"
+#include "max-pdb-solver.h"
+
+#define OS_MAC
 
 int main(int argc, char *argv[]) {
 
@@ -43,18 +47,15 @@ int main(int argc, char *argv[]) {
             std::cout << i << " ";
         }
         std::cout << std::endl;
-        if (LoadSTPPDB<GRID_SIZE, GRID_SIZE>(permutationPdb)) {
-            std::cout << "ERROR: Couldn't load pattern" << std::endl;
-            return 1;
-        }
+        LoadSTPPDB<GRID_SIZE, GRID_SIZE>(permutationPdb);
+
         heuristicVec.push_back(permutationPdb);
     }
-
-    PHOHeuristic<MNPuzzleState<GRID_SIZE, GRID_SIZE>, slideDir, MNPuzzle<GRID_SIZE, GRID_SIZE>> phoHeuristic(std::move(heuristicVec), patterns);
+    MaxPDBHeuristic<MNPuzzleState<GRID_SIZE, GRID_SIZE>, slideDir, MNPuzzle<GRID_SIZE, GRID_SIZE>> maxPdbHeuristic(std::move(heuristicVec));
 
     // IDAstar 37454
     std::cout << input << std::endl << goal << std::endl;
-    idaStar.SetHeuristic(&phoHeuristic);
+    idaStar.SetHeuristic(&maxPdbHeuristic);
     idaStar.GetPath(&mnp, input, goal, path);
 
     // Print Solution
@@ -65,5 +66,6 @@ int main(int argc, char *argv[]) {
 
     return 0;
 }
+
 
 
