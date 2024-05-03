@@ -16,7 +16,7 @@
 template<int width, int height>
 void BuildSTPPDB();
 
-bool additive = false; // Set to true for additive PDB
+bool additive = true; // Set to true for additive PDB
 bool delta = false; // Has something to do with compression
 int compression = 1; // Compression factor (probably)
 int threads = std::thread::hardware_concurrency();

@@ -34,8 +34,8 @@ IDAStar<MNPuzzleState<GRID_SIZE, GRID_SIZE>, slideDir, true> idaStar;
 template<int width, int height>
 int LoadSTPPDB(LexPermutationPDB<MNPuzzleState<width, height>, slideDir, MNPuzzle<width, height>> &pdb) {
     if (pdb.Load(pdbPath.c_str())) {
-        printf("Loaded successfully\n");
-        pdb.PrintHistogram();
+        printf("Loaded successfully\n\n");
+        //pdb.PrintHistogram();
 
         if (compression != 1) {
             pdb.DivCompress(compression, true);

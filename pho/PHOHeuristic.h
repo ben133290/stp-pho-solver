@@ -20,20 +20,28 @@ public:
     double HCost(const state &s1, const state &s2) const;
     std::vector<LexPermutationPDB<state, actions, environment>> heuristicVec;
 private:
-    LPSolver lpSolver;
+    mutable LPSolver lpSolver;
+    int computeNZS(std::vector<std::vector<int>> &patterns);
+    std::vector<double> computeRHS(std::vector<std::vector<int>> &patterns);
 };
 
 template<class state, class actions, class environment>
-PHOHeuristic<state, actions, environment>::PHOHeuristic(std::vector<LexPermutationPDB<state, actions, environment>> &&heuristics, std::vector<std::vector<int>> &patterns)
-        : heuristicVec(std::move(heuristics)) {
+std::vector<double> PHOHeuristic<state, actions, environment>::computeRHS(std::vector<std::vector<int>> &patterns) {
+    return std::vector<double>(patterns.size());
+}
+
+template<class state, class actions, class environment>
+int PHOHeuristic<state, actions, environment>::computeNZS(std::vector<std::vector<int>> &patterns) {
     int nzs = 0; // Initialize nzs here
-    std::vector<double> rhs;
     for (const auto & pattern : patterns) {
         nzs += pattern.size() - 1;
-        rhs.push_back(0);
     }
-    lpSolver = LPSolver(patterns.size(), 15, nzs, patterns, rhs);
+    return nzs;
 }
+
+template<class state, class actions, class environment>
+PHOHeuristic<state, actions, environment>::PHOHeuristic(std::vector<LexPermutationPDB<state, actions, environment>> &&heuristics, std::vector<std::vector<int>> &patterns)
+        : heuristicVec(std::move(heuristics)), lpSolver(patterns.size(), 15, computeNZS(patterns), patterns, computeRHS(patterns)){}
 
 
 template <class state, class actions, class environment>

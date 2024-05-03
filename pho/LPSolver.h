@@ -20,6 +20,8 @@ public:
 
     static void handle_cplex_error(CPXENVptr env, int status);
 
+    virtual ~LPSolver();
+
 private:
     CPXENVptr env;
     CPXLPptr lp;
