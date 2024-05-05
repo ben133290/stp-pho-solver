@@ -41,7 +41,7 @@ int PHOHeuristic<state, actions, environment>::computeNZS(std::vector<std::vecto
 
 template<class state, class actions, class environment>
 PHOHeuristic<state, actions, environment>::PHOHeuristic(std::vector<LexPermutationPDB<state, actions, environment>> &&heuristics, std::vector<std::vector<int>> &patterns)
-        : heuristicVec(std::move(heuristics)), lpSolver(patterns.size(), 15, computeNZS(patterns), patterns, computeRHS(patterns)){}
+        : heuristicVec(std::move(heuristics)), lpSolver(patterns.size(), 15, computeNZS(patterns), patterns) {}
 
 
 template <class state, class actions, class environment>

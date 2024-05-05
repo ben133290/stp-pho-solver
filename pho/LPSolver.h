@@ -12,9 +12,7 @@
 
 class LPSolver {
 public:
-    LPSolver(int numRows, int numCols, int numnz,
-             const std::vector<std::vector<int>> &nzBitMap,
-             const std::vector<double> &rhs);
+    LPSolver(int numRows, int numCols, int numnz, const std::vector<std::vector<int>> &nzBitMap);
 
     double solve(const std::vector<double> &rhs);
 
@@ -33,8 +31,7 @@ private:
 
     void freeProblem(CPXLPptr *problem);
 
-    int init(const std::vector<std::vector<int>> &patterns,
-             const std::vector<double> &pdbHeuristics); // TODO: Remove arg and set rhs to 0 instead
+    int init(const std::vector<std::vector<int>> &patterns); // TODO: Remove arg and set rhs to 0 instead
 };
 
 /* Make a call to a CPLEX API function checking its return status. */

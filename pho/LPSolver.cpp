@@ -4,9 +4,7 @@
 
 #include "LPSolver.h"
 
-LPSolver::LPSolver(int numRows, int numCols, int numnz,
-                   const std::vector<std::vector<int>> &patterns,
-                   const std::vector<double> &rhs) {
+LPSolver::LPSolver(int numRows, int numCols, int numnz, const std::vector<std::vector<int>> &patterns) {
     this->numRows = numRows;
     this->numCols = numCols;
     this->numnz = numnz;
@@ -14,15 +12,14 @@ LPSolver::LPSolver(int numRows, int numCols, int numnz,
     env = CPXopenCPLEX(&status);
     lp = createProblem("PhOLP");
     CPXsetintparam(env, CPXPARAM_ScreenOutput, CPX_OFF); // Console output stuff
-    init(patterns, rhs);
+    init(patterns);
 }
 
 
 
 /* To populate by row, we first create the columns, and then add the
    rows.  */
-int LPSolver::init(const std::vector<std::vector<int>> &patterns,
-                   const std::vector<double> &pdbHeuristics) {
+int LPSolver::init(const std::vector<std::vector<int>> &patterns) {
     int status;
     double obj[numCols];
     double lb[numCols];
@@ -53,7 +50,7 @@ int LPSolver::init(const std::vector<std::vector<int>> &patterns,
     for (int row = 0; row < numRows; row++) {
         rmatbeg[row] = counter;
         rowname[row] = "row";
-        std::vector<int> pattern = patterns[row];
+        const std::vector<int> &pattern = patterns[row];
         for (int i: pattern) {
             if (i != 0) {
                 rmatval[counter] = 1.0;
@@ -62,7 +59,7 @@ int LPSolver::init(const std::vector<std::vector<int>> &patterns,
             }
         }
         sense[row] = 'U'; // Upper bound means LHS >= RHS
-        rhs[row] = pdbHeuristics[row];
+        rhs[row] = 0;
     }
 
     status = CPXaddrows(env, lp, 0, numRows, numnz, rhs, sense, rmatbeg,
