@@ -47,7 +47,7 @@ exp = PhOExperiment(environment=ENV, time_limit=TIME_LIMIT, memory_limit=MEMORY_
 # Add custom parser.
 exp.add_parser(make_parser())
 
-exp.add_algorithm("5-5-5", get_repo(), "4ed29de5", "Release",
+exp.add_algorithm("5-5-5", get_repo(), "3371000b", "Release",
                   "-p 0 1 2 3 4 5 -p 0 6 7 8 9 10 -p 0 11 12 13 14 15".split())
 
 exp.add_tasks([get_explicit("1 2 6 3 5 0 10 7 4 8 9 11 12 13 14 15"),

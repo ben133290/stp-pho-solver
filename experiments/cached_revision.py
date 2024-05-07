@@ -25,7 +25,7 @@ class CachedPhORevision(CachedRevision):
             revision_cache,
             repo,
             rev,
-            ["build.sh", build_type],
+            ["./build.sh", build_type],
             exclude=["experiments"],
         )
         # Store for easy retrieval by class users.
