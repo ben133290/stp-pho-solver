@@ -12,7 +12,7 @@ class CachedPhORevision(CachedRevision):
 
     """
 
-    def __init__(self, revision_cache, repo, rev, build_options):
+    def __init__(self, revision_cache, repo, rev, build_type):
         """
         * *revision_cache*: Path to revision cache.
         * *repo*: Path to Fast Downward repository.
@@ -25,8 +25,8 @@ class CachedPhORevision(CachedRevision):
             revision_cache,
             repo,
             rev,
-            ["cmake"] + build_options + ["-S", ".", "-B", "build"],
+            ["build.sh", build_type],
             exclude=["experiments"],
         )
         # Store for easy retrieval by class users.
-        self.build_options = build_options
+        self.build_options = build_type

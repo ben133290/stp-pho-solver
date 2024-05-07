@@ -5,3 +5,4 @@ cmake-build-release
 /experiments/.venv/
 /experiments/data/
 .cmake
+__pycache__/

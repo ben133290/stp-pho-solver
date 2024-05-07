@@ -106,7 +106,7 @@ class PhOExperiment(Experiment):
             name,
             repo,
             rev,
-            build_options=None,
+            build_type=None,
             options=None,
     ):
 
@@ -114,10 +114,10 @@ class PhOExperiment(Experiment):
             logging.critical(f"Algorithm name must be a string: {name}")
         if name in self._algorithms:
             logging.critical(f"Algorithm names must be unique: {name}")
-        build_options = build_options or []
+        build_type = build_type or []
         algorithm = PhOAlgorithm(
             name,
-            CachedPhORevision(self.revision_cache, repo, rev, build_options),
+            CachedPhORevision(self.revision_cache, repo, rev, build_type),
             options,
         )
         for algo in self._algorithms.values():
