@@ -15,8 +15,6 @@ LPSolver::LPSolver(int numRows, int numCols, int numnz, const std::vector<std::v
     init(patterns);
 }
 
-
-
 /* To populate by row, we first create the columns, and then add the
    rows.  */
 int LPSolver::init(const std::vector<std::vector<int>> &patterns) {

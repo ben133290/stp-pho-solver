@@ -1,0 +1,84 @@
+#! /bin/bash -l
+### Set name.
+#SBATCH --job-name=exp1-02-start
+### Redirect stdout and stderr.
+#SBATCH --output=slurm.log
+#SBATCH --error=slurm.err
+### Let later steps append their logs to the output and error files.
+#SBATCH --open-mode=append
+### Set partition.
+#SBATCH --partition=infai_1
+### Set quality-of-service group.
+#SBATCH --qos=normal
+### Set wall-clock time limit per task.
+#SBATCH --time=0
+### Set memory limit.
+#SBATCH --mem-per-cpu=3872M
+### Set number of cores per task.
+#SBATCH --cpus-per-task=1
+### Number of tasks in array job.
+#SBATCH --array=1-1
+### Adjustment to priority ([-2147483645, 2147483645]).
+#SBATCH --nice=5000
+### Send mail? Mail type can be e.g. NONE, END, FAIL, ARRAY_TASKS.
+#SBATCH --mail-type=END,FAIL,REQUEUE,STAGE_OUT
+#SBATCH --mail-user=ben.heuser@unibas.ch
+### Extra options.
+## (not used)
+
+
+
+# Set a soft memory limit to guard against the cgroup mechanism failing (see SlurmEnvironment docs).
+ulimit -Sv 3885629
+
+
+function print {
+    local msg=${1}
+    printf "[Slurm task %05d] %s\n" "$SLURM_ARRAY_TASK_ID" "$msg"
+}
+
+function print_run_dir {
+    local run_id=${1}
+    let "lower=((run_id - 1) / 100) * 100 + 1"
+    let "upper=((run_id + 100 - 1) / 100) * 100"
+    printf "runs-%05d-%05d/%05d" $lower $upper $run_id
+}
+
+function execute_run {
+    if [[ -f driver.log ]]; then
+        echo "The run in $(pwd) has already been started --> skip it"
+        return
+    fi
+
+    (
+    "/infai/heuser0000/stp-pho-solver/experiments/.venv/bin/python3" run
+    RETCODE=$?
+    if [[ $RETCODE != 0 ]]; then
+        >&2 echo "The run script finished with exit code $RETCODE"
+    fi
+    ) > driver.log 2> driver.err
+
+    # Delete empty driver.err files. driver.log always has content (for started runs).
+    if [[ ! -s driver.err ]]; then
+        rm driver.err
+    fi
+}
+
+# Shuffle tasks to avoid systematic bias.
+declare -a SHUFFLED_TASK_IDS=(1)
+TASK_ID=${SHUFFLED_TASK_IDS[$SLURM_ARRAY_TASK_ID - 1]}
+
+# Compute which runs belong to the Slurm task.
+NUM_RUNS=1
+RUNS_PER_TASK=1
+let "FIRST_RUN_ID=(TASK_ID - 1) * RUNS_PER_TASK + 1"
+let "LAST_RUN_ID=FIRST_RUN_ID + RUNS_PER_TASK - 1"
+if [ $LAST_RUN_ID -gt $NUM_RUNS ]; then
+    LAST_RUN_ID="$NUM_RUNS"
+fi
+
+# Execute runs in shuffled order.
+for run_id in $(seq $FIRST_RUN_ID $LAST_RUN_ID | shuf); do
+    run_dir=$(print_run_dir ${run_id})
+    (cd "../exp1/$run_dir" && execute_run ${run_id})
+done

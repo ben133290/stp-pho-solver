@@ -89,6 +89,7 @@ exp.add_resource("solver", os.path.join(SCRIPT_DIR, "solver.py"))
 # Add custom parser.
 exp.add_parser(make_parser())
 
+
 for algo in ALGORITHMS:
     for task in SUITE:
         run = exp.add_run()
