@@ -22,7 +22,7 @@ REMOTE = NODE.endswith(".scicore.unibas.ch") or NODE.endswith(".cluster.bc2.ch")
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 TIME_LIMIT = 1800
 MEMORY_LIMIT = 2048
-ENV = BaselSlurmEnvironment(email="ben.heuser@unibas.ch")
+ENV = BaselSlurmEnvironment()
 ATTRIBUTES = ["solution", "wctime"]
 
 """
