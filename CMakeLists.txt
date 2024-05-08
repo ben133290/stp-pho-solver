@@ -11,21 +11,21 @@ set(CMAKE_OSX_ARCHITECTURES "x86_64")
 # include_directories(../../../../../../../../Applications/CPLEX_Studio2211/cplex/include)
 # include_directories(../../../../../../../../Applications/CPLEX_Studio2211/concert/include)
 
-add_executable(cplextest pho/cplextest.cpp
+add_executable(cplextest pho/Cplextest.cpp
         pho/LPSolver.cpp)
 
-add_executable(pho_solver pho/pho-solver.cpp
+add_executable(pho_solver pho/PHO-solver.cpp
         hog2/utils/Timer.cpp
         hog2/utils/NBitArray.cpp
         pho/PHOHeuristic.h
         pho/LPSolver.cpp)
 
-add_executable(max_solver pho/max-pdb-solver.cpp
+add_executable(max_solver pho/Max-pdb-solver.cpp
         hog2/utils/Timer.cpp
         hog2/utils/NBitArray.cpp
         pho/MaxPDBHeuristic.h)
 
-add_executable(pdb_generator pho/pdb-generator.cpp
+add_executable(pdb_generator pho/PDB-generator.cpp
         hog2/utils/Timer.cpp
         hog2/utils/NBitArray.cpp)
 

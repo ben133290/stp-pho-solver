@@ -65,7 +65,8 @@ class PhORun(Run):
         self.set_property("global_revision", algo.cached_revision.global_rev)
         self.set_property("build_options", algo.cached_revision.build_options)
         self.set_property("options", options)
-        self.set_property("task", task)
+        self.set_property("problem", "_".join(task))
+        self.set_property("domain", "stp")
         self.set_property("experiment_name", self.experiment.name)
         self.set_property("id", [algo.name] + task)
 
