@@ -6,11 +6,6 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(CMAKE_OSX_ARCHITECTURES "x86_64")
 
-
-# CPLEX dependency
-# include_directories(../../../../../../../../Applications/CPLEX_Studio2211/cplex/include)
-# include_directories(../../../../../../../../Applications/CPLEX_Studio2211/concert/include)
-
 add_executable(cplextest pho/Cplextest.cpp
         pho/LPSolver.cpp)
 
