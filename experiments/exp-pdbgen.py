@@ -10,10 +10,10 @@ import platform
 
 from downward.reports.absolute import AbsoluteReport
 from lab.environments import BaselSlurmEnvironment, LocalEnvironment
-from pho_experiment import PhOExperiment
+from pho_experiment import PhOExperiment, ExpType
 from pho_experiment import get_repo
 from lab.parser import Parser
-from benchmarks import get_explicit
+from benchmarks import get_explicit, get_pdbs_for_range
 from lab.reports import Attribute
 
 
@@ -23,7 +23,7 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 TIME_LIMIT = 1800
 MEMORY_LIMIT = 2048
 ENV = BaselSlurmEnvironment()
-ATTRIBUTES = ["solution", "wctime"]
+ATTRIBUTES = ["average", "count", "wctime"]
 
 """
 CREATE PARSER
@@ -33,10 +33,10 @@ CREATE PARSER
 def make_parser():
     vc_parser = Parser()
     vc_parser.add_pattern(
-        "average", r"Average: (.*)", type=str, required=False
+        "average", r"Average: (.*);", type=float, required=False
     )
     vc_parser.add_pattern(
-        "count", r"Count: (.*)", type=str, required=False
+        "count", r"count: (.*)", type=int, required=False
     )
     vc_parser.add_pattern(
         "wctime", r"wall-clock time: (.*)s", type=float, required=True, file="driver.log"
@@ -49,15 +49,14 @@ CREATE EXPERIMENT AND ADD RUNS
 """
 
 # Create a new experiment.
-exp = PhOExperiment(environment=ENV, time_limit=TIME_LIMIT, memory_limit=MEMORY_LIMIT)
+exp = PhOExperiment(exp_type=ExpType.PDBGEN, environment=ENV, time_limit=TIME_LIMIT, memory_limit=MEMORY_LIMIT)
 # Add custom parser.
 exp.add_parser(make_parser())
 
-exp.add_algorithm("5-5-5", get_repo(), "acfed29", "Release",
-                  "-p 0 1 2 3 4 5 6 --pdbPathPrefix /infai/heuser0000/stp-pho-solver/cmake-build-debug/".split())
+exp.add_algorithm("additive-pdb-gen", get_repo(), "d94e5fb", "Debug",
+                  ["--path", "/infai/heuser0000/stp-pho-solver/PDBFILES"])
 
-exp.add_tasks([get_explicit("1 2 6 3 5 0 10 7 4 8 9 11 12 13 14 15"),
-               get_explicit("1 2 6 3 5 10 0 7 4 8 9 11 12 13 14 15")])
+exp.add_tasks(get_pdbs_for_range(5))
 
 
 # Make a report.

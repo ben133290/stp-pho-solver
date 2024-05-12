@@ -10,16 +10,12 @@ import platform
 
 from downward.reports.absolute import AbsoluteReport
 from lab.environments import BaselSlurmEnvironment, LocalEnvironment
-from pho_experiment import PhOExperiment
+from pho_experiment import PhOExperiment, ExpType
 from pho_experiment import get_repo
 from lab.parser import Parser
 from benchmarks import get_explicit
 from lab.reports import Attribute
 
-
-NODE = platform.node()
-REMOTE = NODE.endswith(".scicore.unibas.ch") or NODE.endswith(".cluster.bc2.ch")
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 TIME_LIMIT = 1800
 MEMORY_LIMIT = 2048
 ENV = BaselSlurmEnvironment()
@@ -46,12 +42,13 @@ CREATE EXPERIMENT AND ADD RUNS
 """
 
 # Create a new experiment.
-exp = PhOExperiment(environment=ENV, time_limit=TIME_LIMIT, memory_limit=MEMORY_LIMIT)
+exp = PhOExperiment(exp_type=ExpType.PHO, environment=ENV, time_limit=TIME_LIMIT, memory_limit=MEMORY_LIMIT)
 # Add custom parser.
 exp.add_parser(make_parser())
 
 exp.add_algorithm("5-5-5", get_repo(), "acfed29", "Release",
-                  "-p 0 1 2 3 4 5 6 --pdbPathPrefix /infai/heuser0000/stp-pho-solver/cmake-build-debug/".split())
+                  "-p 0 1 2 3 4 5 -p 0 6 7 8 9 10 -p 0 11 11 12 13 14 "
+                  "--pdbPathPrefix /infai/heuser0000/stp-pho-solver/PDBFILES/".split())
 
 exp.add_tasks([get_explicit("1 2 6 3 5 0 10 7 4 8 9 11 12 13 14 15"),
                get_explicit("1 2 6 3 5 10 0 7 4 8 9 11 12 13 14 15")])

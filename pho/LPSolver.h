@@ -12,7 +12,7 @@
 
 class LPSolver {
 public:
-    LPSolver(int numRows, int numCols, int numnz, const std::vector<std::vector<int>> &nzBitMap);
+    LPSolver(int numRows, int numCols, int numnz, const std::vector<std::vector<int>> &nzBitMap, bool verbose);
 
     double solve(const std::vector<double> &rhs);
 
@@ -26,6 +26,7 @@ private:
     int numRows;
     int numCols;
     int numnz;
+    bool verbose = false;
 
     CPXLPptr createProblem(const std::string &name);
 
@@ -42,6 +43,5 @@ static void CPX_CALL(Func cpxfunc, CPXENVptr env, Args &&... args) {
         LPSolver::handle_cplex_error(env, status);
     }
 }
-
 
 #endif //STP_PHO_SOLVER_LPSOLVER_H

@@ -11,6 +11,8 @@
 #include "../cli/CLI11.hpp"
 #include "../hog2/search/LexPermutationPDB.h"
 #include "PHOHeuristic.h"
+#include "../hog2/environments/STPInstances.h"
+#include <chrono>
 
 #define GRID_SIZE 4
 

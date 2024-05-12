@@ -13,20 +13,13 @@ class CachedPhORevision(CachedRevision):
     """
 
     def __init__(self, revision_cache, repo, rev, build_type):
-        """
-        * *revision_cache*: Path to revision cache.
-        * *repo*: Path to Fast Downward repository.
-        * *rev*: Fast Downward revision.
-        * *build_options*: List of build.py options.
-        * *subdir*: relative path from *repo* to Fast Downward subdir.
-        """
         CachedRevision.__init__(
             self,
             revision_cache,
             repo,
             rev,
             ["./build.sh", build_type],
-            exclude=["experiments"],
+            exclude=["experiments", "README.md"],
         )
         # Store for easy retrieval by class users.
         self.build_options = build_type

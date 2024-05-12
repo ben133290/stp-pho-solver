@@ -16,7 +16,9 @@
 template <class state, class actions, class environment>
 class PHOHeuristic : public Heuristic<state> {
 public:
-    explicit PHOHeuristic(std::vector<LexPermutationPDB<state, actions, environment>> &&heuristics, std::vector<std::vector<int>> &patterns);
+    explicit PHOHeuristic(std::vector<LexPermutationPDB<state, actions, environment>> &&heuristics,
+                          std::vector<std::vector<int>> &patterns,
+                          bool verbose);
     double HCost(const state &s1, const state &s2) const;
     std::vector<LexPermutationPDB<state, actions, environment>> heuristicVec;
 private:
@@ -40,8 +42,11 @@ int PHOHeuristic<state, actions, environment>::computeNZS(std::vector<std::vecto
 }
 
 template<class state, class actions, class environment>
-PHOHeuristic<state, actions, environment>::PHOHeuristic(std::vector<LexPermutationPDB<state, actions, environment>> &&heuristics, std::vector<std::vector<int>> &patterns)
-        : heuristicVec(std::move(heuristics)), lpSolver(patterns.size(), 15, computeNZS(patterns), patterns) {}
+PHOHeuristic<state, actions, environment>
+        ::PHOHeuristic(std::vector<LexPermutationPDB<state, actions, environment>> &&heuristics,
+                       std::vector<std::vector<int>> &patterns,
+                       bool verbose)
+        : heuristicVec(std::move(heuristics)), lpSolver(patterns.size(), 15, computeNZS(patterns), patterns, verbose) {}
 
 
 template <class state, class actions, class environment>
