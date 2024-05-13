@@ -25,6 +25,9 @@ def get_korf(n: int):
     result: [str] = ["-k", str(n)]
     return result
 
+def get_random(walklength: int):
+    return ["-r", str(walklength)]
+
 
 def generate_subsets(n):
     numbers = [str(i) for i in range(1, 16)]

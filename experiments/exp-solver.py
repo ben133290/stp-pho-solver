@@ -13,7 +13,7 @@ from lab.environments import BaselSlurmEnvironment, LocalEnvironment
 from pho_experiment import PhOExperiment, ExpType
 from pho_experiment import get_repo
 from lab.parser import Parser
-from benchmarks import get_explicit, get_korf
+from benchmarks import get_explicit, get_korf, get_korf_for_range
 from lab.reports import Attribute
 
 TIME_LIMIT = 1800
@@ -49,11 +49,11 @@ exp = PhOExperiment(exp_type=ExpType.PHO, environment=ENV, time_limit=TIME_LIMIT
 # Add custom parser.
 exp.add_parser(make_parser())
 
-exp.add_algorithm("5-5-5", get_repo(), "cbc70fbc251b44899f376bac9723b03d5fe3a691", "Release",
-                  "-p 0 1 2 3 4 5 -p 0 6 7 8 9 -p 0 10 11 12 13 -p 0 14 15 "
+exp.add_algorithm("5-5-5", get_repo(), "7564ec4bd97dfab9f12a6d4ffed50f1365cc29fa", "Release",
+                  "-p 0 1 2 3 4 5 -p 0 6 7 8 9 -p 0 10 11 12 13 -p 0 14 15 -v true "
                   "--pdbPathPrefix /infai/heuser0000/stp-pho-solver/PDBFILES/".split())
 
-exp.add_tasks([get_korf(3)])
+exp.add_tasks(get_korf_for_range(0, 20))
 
 
 # Make a report.
