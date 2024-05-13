@@ -8,6 +8,7 @@ int main(int argc, char *argv[]) {
     int numPatterns = 0;
     bool verbose = false;
     int korfIndex = -1;
+    int random = 0;
 
     // Command line parsing
     CLI::App app{"Post hoc optimization solver for sliding tile puzzle"};
@@ -19,6 +20,7 @@ int main(int argc, char *argv[]) {
     app.add_option("-p", patterns, "Specify a pattern to use/search");
     app.add_option("-v", verbose, "If used, debugging printouts are enabled");
     app.add_option("-k", korfIndex, "Use given korf instance as start state. Must be in range 0-99");
+    app.add_option("-r", random, "Use random state with walk length n");
     CLI11_PARSE(app, argc, argv);
 
     if (korfIndex > 99) {
@@ -27,13 +29,17 @@ int main(int argc, char *argv[]) {
     // parse start state
     // transfer start state to mnpuzzle datastructure
     if (korfIndex <= -1) {
-        if (startState.size() > 16) {
-            std::cout << "Grid sizes > 4 are not supported (for now)" << std::endl;
-            return 0;
-        }
-        for (int i = 0; i < startState.size(); i++) {
-            input.puzzle[i] = startState[i];
-            if (startState[i] == 0) { input.blank = i; }
+        if (random > 0) {
+            input = STP::GetRandomInstance(random);
+        } else {
+            if (startState.size() > 16) {
+                std::cout << "Grid sizes > 4 are not supported (for now)" << std::endl;
+                return 0;
+            }
+            for (int i = 0; i < startState.size(); i++) {
+                input.puzzle[i] = startState[i];
+                if (startState[i] == 0) { input.blank = i; }
+            }
         }
     } else {
         input = STP::GetKorfInstance(korfIndex);

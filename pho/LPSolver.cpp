@@ -57,7 +57,7 @@ int LPSolver::init(const std::vector<std::vector<int>> &patterns) {
                 counter++;
             }
         }
-        sense[row] = 'U'; // Upper bound means LHS >= RHS
+        sense[row] = 'G'; // Upper bound means LHS >= RHS
         rhs[row] = 0;
     }
 
@@ -117,8 +117,11 @@ double LPSolver::solve(const std::vector<double> &rhs) {
     }
     CPX_CALL(CPXchgrhs, env, lp, rhs.size(), indices.data(), rhs.data());
 
+
     // SOLVE
     CPX_CALL(CPXlpopt, env, lp);
+
+    if (verbose) { std::cout << "solved" << std::endl; }
 
     // GET RESULT
     double value;
@@ -134,4 +137,9 @@ LPSolver::~LPSolver() {
     std::cout << "Destructing Solver" << std::endl;
     freeProblem(&lp);
     CPXcloseCPLEX(&env);
+}
+
+void LPSolver::writeProblem() {
+    const char * filename_str = "/infai/heuser0000/stp-pho-solver/build/problem.lp";
+    CPX_CALL(CPXwriteprob, env, lp, filename_str, nullptr);
 }

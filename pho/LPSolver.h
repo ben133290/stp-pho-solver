@@ -20,6 +20,8 @@ public:
 
     virtual ~LPSolver();
 
+    void writeProblem();
+
 private:
     CPXENVptr env;
     CPXLPptr lp;
@@ -32,7 +34,7 @@ private:
 
     void freeProblem(CPXLPptr *problem);
 
-    int init(const std::vector<std::vector<int>> &patterns); // TODO: Remove arg and set rhs to 0 instead
+    int init(const std::vector<std::vector<int>> &patterns);
 };
 
 /* Make a call to a CPLEX API function checking its return status. */
