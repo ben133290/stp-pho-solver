@@ -13,13 +13,13 @@ from lab.environments import BaselSlurmEnvironment, LocalEnvironment
 from pho_experiment import PhOExperiment, ExpType
 from pho_experiment import get_repo
 from lab.parser import Parser
-from benchmarks import get_explicit
+from benchmarks import get_explicit, get_korf
 from lab.reports import Attribute
 
 TIME_LIMIT = 1800
 MEMORY_LIMIT = 2048
 ENV = BaselSlurmEnvironment()
-ATTRIBUTES = ["solution", "wctime"]
+ATTRIBUTES = ["solution", "wctime", "time"]
 
 """
 CREATE PARSER
@@ -29,7 +29,10 @@ CREATE PARSER
 def make_parser():
     vc_parser = Parser()
     vc_parser.add_pattern(
-        "solution", r"Solution: \n((Left\n)|(Down\n)|(Right\n)|(Up\n))*", type=str, required=False
+        "solution", r"Solution: (.*)\n", type=str, required=False
+    )
+    vc_parser.add_pattern(
+        "time", r"Total solve time: (.*) microseconds", type=int, required=False
     )
     vc_parser.add_pattern(
         "wctime", r"wall-clock time: (.*)s", type=float, required=True, file="driver.log"
@@ -46,12 +49,11 @@ exp = PhOExperiment(exp_type=ExpType.PHO, environment=ENV, time_limit=TIME_LIMIT
 # Add custom parser.
 exp.add_parser(make_parser())
 
-exp.add_algorithm("5-5-5", get_repo(), "acfed29", "Release",
-                  "-p 0 1 2 3 4 5 -p 0 6 7 8 9 10 -p 0 11 11 12 13 14 "
+exp.add_algorithm("5-5-5", get_repo(), "cbc70fbc251b44899f376bac9723b03d5fe3a691", "Release",
+                  "-p 0 1 2 3 4 5 -p 0 6 7 8 9 -p 0 10 11 12 13 -p 0 14 15 "
                   "--pdbPathPrefix /infai/heuser0000/stp-pho-solver/PDBFILES/".split())
 
-exp.add_tasks([get_explicit("1 2 6 3 5 0 10 7 4 8 9 11 12 13 14 15"),
-               get_explicit("1 2 6 3 5 10 0 7 4 8 9 11 12 13 14 15")])
+exp.add_tasks([get_korf(3)])
 
 
 # Make a report.

@@ -6,9 +6,6 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(CMAKE_OSX_ARCHITECTURES "x86_64")
 
-add_executable(cplextest pho/Cplextest.cpp
-        pho/LPSolver.cpp)
-
 add_executable(pho_solver pho/PHO-solver.cpp
         hog2/utils/Timer.cpp
         hog2/utils/NBitArray.cpp
@@ -32,4 +29,3 @@ target_link_libraries(pdb_generator PUBLIC Threads::Threads)
 
 find_package(Cplex REQUIRED)
 target_link_libraries(pho_solver PRIVATE cplex::cplex)
-target_link_libraries(cplextest PRIVATE cplex::cplex)

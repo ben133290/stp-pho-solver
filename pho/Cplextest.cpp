@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
     std::vector<double> heuristics;
     heuristics.push_back(20);
     heuristics.push_back(40);
-    LPSolver lpSolver(2, 2, 4, patterns);
+    LPSolver lpSolver(2, 2, 4, patterns, false);
 
     std::vector<double> heuristics2;
     heuristics2.push_back(10);

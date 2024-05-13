@@ -31,7 +31,7 @@ void initCLI(char **&argv, CLI::App &app);
 
 template<int width, int height>
 void BuildSTPPDB() {
-    MNPuzzle<width, height> mnp;
+    //MNPuzzle<width, height> mnp;
     std::vector<slideDir> moves;
     goal.Reset();
     mnp.StoreGoal(goal);

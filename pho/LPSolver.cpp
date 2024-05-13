@@ -20,6 +20,7 @@ LPSolver::LPSolver(int numRows, int numCols, int numnz, const std::vector<std::v
 /* To populate by row, we first create the columns, and then add the
    rows.  */
 int LPSolver::init(const std::vector<std::vector<int>> &patterns) {
+    std::cout << "Initializing Solver\n";
     int status;
     double obj[numCols];
     double lb[numCols];
@@ -58,6 +59,22 @@ int LPSolver::init(const std::vector<std::vector<int>> &patterns) {
         }
         sense[row] = 'U'; // Upper bound means LHS >= RHS
         rhs[row] = 0;
+    }
+
+    if (verbose) {
+        std::cout << "rmatind:";
+        for (int i = 0; i < numnz; i++) {
+            std::cout << " " << rmatind[i];
+        }
+        std::cout << "\nrmatbeg:";
+        for (int i = 0; i < numRows; i++) {
+            std::cout << " " << rmatbeg[i];
+        }
+        std::cout << "\nrmatval:";
+        for (int i = 0; i < numnz; i++) {
+            std::cout << " " << rmatval[i];
+        }
+        std::cout << std::endl;
     }
 
     status = CPXaddrows(env, lp, 0, numRows, numnz, rhs, sense, rmatbeg,
