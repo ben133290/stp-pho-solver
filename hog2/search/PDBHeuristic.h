@@ -186,6 +186,7 @@ double PDBHeuristic<abstractState, abstractAction, abstractEnvironment, state, p
 		}
 		default:
 			assert(!"Not implemented");
+            abort();
 	}
 }
 

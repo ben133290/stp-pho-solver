@@ -61,8 +61,10 @@ namespace PermutationPuzzle {
 		:maxItem(0), minPattern(100), additive(false) {}
 		
 		double HCost(const state &s) const;
-		virtual double AdditiveGCost(const state &s, const action &d)
-		{ assert(!"Additive Gost used but not defined for this class\n"); }
+		virtual double AdditiveGCost(const state &s, const action &d) {
+            assert(!"Additive Gost used but not defined for this class\n");
+            return 0;
+        }
 		
 		void GetStateFromHash(state &s, uint64_t hash) const;
 		//uint64_t GetStateHash(const state &s) const;
