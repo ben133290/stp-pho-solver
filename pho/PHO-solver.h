@@ -13,8 +13,13 @@
 #include "PHOHeuristic.h"
 #include "../hog2/environments/STPInstances.h"
 #include <chrono>
+#include "../downward/system.h"
+#include "SumHeuristic.h"
+#include "MaxPDBHeuristic.h"
 
 #define GRID_SIZE 4
+#define STATE MNPuzzleState<GRID_SIZE, GRID_SIZE>
+#define ENVIRONMENT MNPuzzle<GRID_SIZE, GRID_SIZE>
 
 bool additive = false; // Set to true for additive PDB
 bool delta = false; // Has something to do with compression
@@ -31,12 +36,12 @@ std::vector<slideDir> path;
 std::vector<int> inputpattern;
 std::vector<std::vector<int>> patterns;
 
-IDAStar<MNPuzzleState<GRID_SIZE, GRID_SIZE>, slideDir, true> idaStar;
+IDAStar<MNPuzzleState<GRID_SIZE, GRID_SIZE>, slideDir, false> idaStar;
 
 template<int width, int height>
 int LoadSTPPDB(LexPermutationPDB<MNPuzzleState<width, height>, slideDir, MNPuzzle<width, height>> &pdb) {
     if (pdb.Load(pdbPath.c_str())) {
-        printf("Loaded successfully\n\n");
+        //printf("Loaded successfully\n");
         //pdb.PrintHistogram();
 
         if (compression != 1) {

@@ -12,7 +12,10 @@ add_executable(pho_solver pho/PHO-solver.cpp
         pho/PHOHeuristic.h
         pho/LPSolver.cpp
         hog2/environments/STPInstances.cpp
-        hog2/environments/STPInstances.h)
+        hog2/environments/STPInstances.h
+        downward/system.cc
+        downward/system_unix.cc
+        pho/SumHeuristic.h)
 
 add_executable(max_solver pho/Max-pdb-solver.cpp
         hog2/utils/Timer.cpp

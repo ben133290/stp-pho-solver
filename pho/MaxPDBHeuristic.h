@@ -22,7 +22,7 @@ public:
 
 template<class state, class actions, class environment>
 MaxPDBHeuristic<state, actions, environment>::MaxPDBHeuristic(std::vector<LexPermutationPDB<state, actions, environment>> &&heuristics)
-:heuristicVec(std::move(heuristics)){};
+:heuristicVec(std::move(heuristics)){}
 
 template <class state, class actions, class environment>
 double MaxPDBHeuristic<state, actions, environment>::HCost(const state &s1, const state &s2) const

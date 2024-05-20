@@ -2,8 +2,8 @@
 // Created by Benedikt Heuser on 16.04.24.
 //
 
-#ifndef STP_PHO_SOLVER_MAXPDBHEURISTIC_H
-#define STP_PHO_SOLVER_MAXPDBHEURISTIC_H
+#ifndef STP_PHO_SOLVER_PHOHEURISTIC_H
+#define STP_PHO_SOLVER_PHOHEURISTIC_H
 
 #include "../hog2/search/LexPermutationPDB.h"
 #include "../hog2/search/Heuristic.h"
@@ -11,7 +11,6 @@
 #include "LPSolver.h"
 
 #define GRID_SIZE 4
-//#define HTYPE LexPermutationPDB<MNPuzzleState<GRID_SIZE, GRID_SIZE>, slideDir, MNPuzzle<GRID_SIZE, GRID_SIZE>>
 
 template <class state, class actions, class environment>
 class PHOHeuristic : public Heuristic<state> {
@@ -63,4 +62,4 @@ double PHOHeuristic<state, actions, environment>::HCost(const state &s1, const s
 }
 
 
-#endif //STP_PHO_SOLVER_MAXPDBHEURISTIC_H
+#endif //STP_PHO_SOLVER_PHOHEURISTIC_H

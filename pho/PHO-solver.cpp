@@ -2,25 +2,39 @@
 
 #include "PHO-solver.h"
 
+enum HeuristicType {
+    PHO,
+    SUM,
+    MAX
+};
+
+
 int main(int argc, char *argv[]) {
+
+    utils::register_event_handlers();
 
     std::vector<int> startState;
     int numPatterns = 0;
     bool verbose = false;
     int korfIndex = -1;
     int random = 0;
+    HeuristicType heuristicType;
+
 
     // Command line parsing
     CLI::App app{"Post hoc optimization solver for sliding tile puzzle"};
     argv = app.ensure_utf8(argv);
     app.add_option("-s", startState, "Specify a start state");
     app.add_option("-n", numPatterns, "Specify the number of patterns");
-    app.add_option("--pdbPathPrefix", pdbPath, "Specify the path to the directory where your .pdb files are located");
+    app.add_option("--pdbPathPrefix", pdbPath, "Specify the path to the directory where your"
+                                               " .pdb files are located")
+                                               ->default_val("/infai/heuser0000/stp-pho-solver/PDBFILES/");
     app.add_option("--pattern", patterns, "Specify a pattern to use/search");
     app.add_option("-p", patterns, "Specify a pattern to use/search");
-    app.add_option("-v", verbose, "If used, debugging printouts are enabled");
+    app.add_option("-v", verbose, "If used, debugging printouts are enabled")->default_val(false);
     app.add_option("-k", korfIndex, "Use given korf instance as start state. Must be in range 0-99");
     app.add_option("-r", random, "Use random state with walk length n");
+    app.add_option("--heuristic", heuristicType, "Choose heuristic: 0 = PHO, 1 = Sum, 2 = Max")->default_val(0);
     CLI11_PARSE(app, argc, argv);
 
     if (korfIndex > 99) {
@@ -33,19 +47,26 @@ int main(int argc, char *argv[]) {
             input = STP::GetRandomInstance(random);
         } else {
             if (startState.size() > 16) {
-                std::cout << "Grid sizes > 4 are not supported (for now)" << std::endl;
+                std::cout << "ERROR: Grid sizes > 4 are not supported (for now)." << std::endl;
                 return 0;
             }
             for (int i = 0; i < startState.size(); i++) {
                 input.puzzle[i] = startState[i];
                 if (startState[i] == 0) { input.blank = i; }
             }
+            if (!input.isSolvable()) {
+                std::cout << "ERROR: Problem didn't pass solvability check." << std::endl;
+                utils::exit_with(utils::ExitCode::SEARCH_INPUT_ERROR);
+            } else {
+                std::cout << "Passed solvability check" << std::endl;
+            }
         }
     } else {
         input = STP::GetKorfInstance(korfIndex);
     }
 
-    std::cout << "Start state: " << input << std::endl; // DEBUG
+    std::cout << "Start state: " << input << std::endl;
+    std::cout << "Goal state: " << goal << std::endl;
 
     std::vector<LexPermutationPDB<MNPuzzleState<GRID_SIZE, GRID_SIZE>, slideDir, MNPuzzle<GRID_SIZE, GRID_SIZE>>> heuristicVec;
 
@@ -55,7 +76,7 @@ int main(int argc, char *argv[]) {
         LexPermutationPDB<MNPuzzleState<GRID_SIZE, GRID_SIZE>, slideDir, MNPuzzle<GRID_SIZE, GRID_SIZE>> permutationPdb(
                 &mnp, goal, pattern);
         if (verbose) {
-            std::cout << "Path to pdb: " << pdbPath << permutationPdb.GetFileName(pdbPath.c_str()) << std::endl;
+            std::cout << "Path to pdb: " << permutationPdb.GetFileName(pdbPath.c_str()) << std::endl;
             std::cout << "Attempting to load pattern: ";
             for (int i: pattern) {
                 std::cout << i << " ";
@@ -64,25 +85,40 @@ int main(int argc, char *argv[]) {
         }
         if (LoadSTPPDB<GRID_SIZE, GRID_SIZE>(permutationPdb)) {
             std::cout << "ERROR: Couldn't load pattern" << std::endl;
-            return 1;
+            utils::exit_with(utils::ExitCode::SEARCH_INPUT_ERROR);
         }
         heuristicVec.push_back(permutationPdb);
     }
 
-    PHOHeuristic<MNPuzzleState<GRID_SIZE, GRID_SIZE>, slideDir, MNPuzzle<GRID_SIZE, GRID_SIZE>> phoHeuristic(std::move(heuristicVec), patterns, verbose);
+    // INIT HEURISTIC
+    Heuristic<MNPuzzleState<GRID_SIZE, GRID_SIZE>> *heuristic;
+    switch (heuristicType) {
+        case PHO:
+            heuristic = new PHOHeuristic<STATE, slideDir, ENVIRONMENT>(std::move(heuristicVec),patterns, verbose);
+            break;
+        case SUM:
+            std::cout << "Heuristic: sum" << std::endl;
+            heuristic = new SumHeuristic<STATE, slideDir, ENVIRONMENT>(std::move(heuristicVec), verbose);
+            break;
+        case MAX:
+            std::cout << "Heuristic: max" << std::endl;
+            heuristic = new MaxPDBHeuristic<STATE, slideDir, ENVIRONMENT>(std::move(heuristicVec));
+            break;
+        default:
+            std::cout << "ERROR: Invalid Heuristic" << std::endl;
+            utils::exit_with(utils::ExitCode::SEARCH_INPUT_ERROR);
+    }
+    
 
-    // IDAstar 37454
-    std::cout << input << std::endl << goal << std::endl;
-    idaStar.SetHeuristic(&phoHeuristic);
-
+    // IDASTAR
+    idaStar.SetHeuristic(heuristic);
     auto start = std::chrono::system_clock::now();
     idaStar.GetPath(&mnp, input, goal, path);
     auto end = std::chrono::system_clock::now();
-    auto diff = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-    std::cout << "Total solve time: " << diff.count() << " microseconds" << std::endl;
+    auto diff = std::chrono::duration_cast<std::chrono::seconds>(end - start);
+    std::cout << "Total solve time: " << diff.count() << " seconds" << std::endl;
 
     // Print Solution
-
     std::cout << "Solution: ";
     for (slideDir n: path) {
         std::cout << n << " ";

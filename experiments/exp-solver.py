@@ -8,18 +8,20 @@ import glob
 import os
 import platform
 
+import lab.reports
 from downward.reports.absolute import AbsoluteReport
 from lab.environments import BaselSlurmEnvironment, LocalEnvironment
 from pho_experiment import PhOExperiment, ExpType
 from pho_experiment import get_repo
 from lab.parser import Parser
 from benchmarks import get_explicit, get_korf, get_korf_for_range
-from lab.reports import Attribute
+from lab.reports import Attribute, geometric_mean
+from downward.parsers import exitcode_parser
 
 TIME_LIMIT = 1800
 MEMORY_LIMIT = 2048
 ENV = BaselSlurmEnvironment()
-ATTRIBUTES = ["solution", "wctime", "time"]
+ATTRIBUTES = ["solution", "wctime", "time", Attribute("time", function=geometric_mean)]
 
 """
 CREATE PARSER
@@ -32,7 +34,7 @@ def make_parser():
         "solution", r"Solution: (.*)\n", type=str, required=False
     )
     vc_parser.add_pattern(
-        "time", r"Total solve time: (.*) microseconds", type=int, required=False
+        "time", r"Total solve time: (.*) seconds", type=int, required=False
     )
     vc_parser.add_pattern(
         "wctime", r"wall-clock time: (.*)s", type=float, required=True, file="driver.log"
@@ -48,12 +50,13 @@ CREATE EXPERIMENT AND ADD RUNS
 exp = PhOExperiment(exp_type=ExpType.PHO, environment=ENV, time_limit=TIME_LIMIT, memory_limit=MEMORY_LIMIT)
 # Add custom parser.
 exp.add_parser(make_parser())
+exp.add_parser(exitcode_parser)
 
-exp.add_algorithm("5-5-5", get_repo(), "7564ec4bd97dfab9f12a6d4ffed50f1365cc29fa", "Release",
-                  "-p 0 1 2 3 4 5 -p 0 6 7 8 9 -p 0 10 11 12 13 -p 0 14 15 -v true "
+exp.add_algorithm("5-5-5", get_repo(), "f7fad9e51ded3f347ffaa712da2b09d97b332d92", "Release",
+                  "-p 0 1 2 3 4 5 -p 0 6 7 8 9 -p 0 10 11 12 13 -p 0 14 15 -v false "
                   "--pdbPathPrefix /infai/heuser0000/stp-pho-solver/PDBFILES/".split())
 
-exp.add_tasks(get_korf_for_range(0, 20))
+exp.add_tasks(get_korf_for_range(0, 1))
 
 
 # Make a report.

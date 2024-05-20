@@ -56,10 +56,36 @@ public:
 		return false;
 	}
 
+    bool isSolvable();
+
 	unsigned int blank;
 	std::array<int, width*height> puzzle;
 //	int puzzle[width*height];
 };
+
+template<int width, int height>
+bool MNPuzzleState<width, height>::isSolvable() {
+
+    // fill buckets
+    std::array<int, width*height> buckets = {0};
+    for (int i = 0; i < size(); i++) {
+        int tile = puzzle[i];
+        if (tile) {
+            for (int j = i + 1; j < size(); j++) {
+                if (puzzle[j] < puzzle[i] && puzzle[j]) {
+                    buckets[i]++;
+                }
+            }
+        }
+    }
+
+    int inversion_count = 0;
+    for (int i : buckets) {
+        inversion_count += i;
+    }
+
+    return !(inversion_count % 2);
+}
 
 namespace std {
 	
