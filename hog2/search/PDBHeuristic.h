@@ -869,14 +869,17 @@ template <class abstractState, class abstractAction, class abstractEnvironment, 
 void PDBHeuristic<abstractState, abstractAction, abstractEnvironment, state, pdbBits>::BuildAdditivePDB(const state &goal, int numThreads, bool useCourseOpen)
 {
 	assert(goalSet);
-    std::cout<<"goal is set\n";
 	SharedQueue<std::pair<uint64_t, uint64_t> > workQueue(numThreads*20);
 	SharedQueue<uint64_t> resultQueue;
 	std::mutex lock;
-	
+
+    std::cout<<"1\n";
 	uint64_t COUNT = GetPDBSize();
+    std::cout<<"2\n";
 	PDB.Resize(COUNT);
+    std::cout<<"3\n";
 	PDB.FillMax();
+    std::cout<<"4\n";
 	
 	// with weights we have to store the lowest weight stored to make sure
 	// we don't skip regions
