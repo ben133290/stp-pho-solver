@@ -873,13 +873,11 @@ void PDBHeuristic<abstractState, abstractAction, abstractEnvironment, state, pdb
 	SharedQueue<uint64_t> resultQueue;
 	std::mutex lock;
 
-    std::cout<<"1\n";
+
 	uint64_t COUNT = GetPDBSize();
-    std::cout<<"2\n";
-	PDB.Resize(COUNT);
-    std::cout<<"3\n";
+    std::cout << "Count: " << COUNT << std::endl;
+	PDB.Resize(COUNT); // Hier passiert der Fehler
 	PDB.FillMax();
-    std::cout<<"4\n";
 	
 	// with weights we have to store the lowest weight stored to make sure
 	// we don't skip regions
