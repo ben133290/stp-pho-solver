@@ -869,6 +869,7 @@ template <class abstractState, class abstractAction, class abstractEnvironment, 
 void PDBHeuristic<abstractState, abstractAction, abstractEnvironment, state, pdbBits>::BuildAdditivePDB(const state &goal, int numThreads, bool useCourseOpen)
 {
 	assert(goalSet);
+    std::cout<<"goal is set\n";
 	SharedQueue<std::pair<uint64_t, uint64_t> > workQueue(numThreads*20);
 	SharedQueue<uint64_t> resultQueue;
 	std::mutex lock;
