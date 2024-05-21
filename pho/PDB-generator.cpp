@@ -10,6 +10,7 @@ int main(int argc, char *argv[]) {
     initCLI(argv, app);
     CLI11_PARSE(app, argc, argv);
 
+    std::cout << "Attempting to build PDB" << std::endl;
     BuildSTPPDB<GRID_SIZE, GRID_SIZE>();
 
     return 0;

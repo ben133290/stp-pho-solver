@@ -56,7 +56,8 @@ exp.add_parser(make_parser())
 exp.add_algorithm("additive-pdb-gen", get_repo(), "207a2c9ae1be8e9653a6f2bc501fb6084535ff35", "Debug",
                   ["--path", "/infai/heuser0000/stp-pho-solver/PDBFILES"])
 
-exp.add_tasks([get_explicit_pdb("0 2 3 6 7 10 11 14 15")])
+exp.add_tasks([get_explicit_pdb("0 1 2 3 4 5 6 7"), get_explicit_pdb("0 2 3 6 7 10 11 14 15"),
+               get_explicit_pdb("0 8 9 10 11 12 13 14 15"), get_explicit_pdb("0 1 4 5 8 9 12 13")])
 
 # exp.add_tasks([get_explicit_pdb("0 1 2 3 4 5 6 7")])
 

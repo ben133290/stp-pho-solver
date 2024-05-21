@@ -5,6 +5,10 @@ def get_explicit(state):
     return ["-s"] + state.split()
 
 
+def get_explicit_pdb(pattern):
+    return ["-p"] + pattern.split()
+
+
 def get_pdbs_for_range(n: int):
     assert (n > 0)
     result = []
@@ -24,6 +28,7 @@ def get_korf_for_range(start: int, end: int):
 def get_korf(n: int):
     result: [str] = ["-k", str(n)]
     return result
+
 
 def get_random(walklength: int):
     return ["-r", str(walklength)]
