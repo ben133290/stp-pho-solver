@@ -877,7 +877,7 @@ void PDBHeuristic<abstractState, abstractAction, abstractEnvironment, state, pdb
 	uint64_t COUNT = GetPDBSize();
     uint64_t memorySize = ((COUNT*8+63)/64);
     std::cout << "required words: " << memorySize << std::endl
-              << "required memory: " << (memorySize * 64) / (8 * 1024 * 1024 * 1024) << "GiB" << std::endl
+              << "required memory: " << memorySize / (134217728) << "GiB" << std::endl
               << std::flush;
 	PDB.Resize(COUNT); // Hier passiert der Fehler
 
