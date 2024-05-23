@@ -9,6 +9,7 @@
 #include "../hog2/environments/MNPuzzle.h"
 #include "../cli/CLI11.hpp"
 #include "../hog2/search/LexPermutationPDB.h"
+#include "../downward/system.h"
 
 #define GRID_SIZE 4
 

@@ -22,7 +22,7 @@ REMOTE = NODE.endswith(".scicore.unibas.ch") or NODE.endswith(".cluster.bc2.ch")
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 TIME_LIMIT = 1800
 MEMORY_LIMIT = 2048
-ENV = BaselSlurmEnvironment(cpus_per_task=8)
+ENV = BaselSlurmEnvironment(cpus_per_task=20)
 ATTRIBUTES = ["average", "count", "wctime"]
 
 """
@@ -53,7 +53,7 @@ exp = PhOExperiment(exp_type=ExpType.PDBGEN, environment=ENV, time_limit=TIME_LI
 # Add custom parser.
 exp.add_parser(make_parser())
 
-exp.add_algorithm("additive-pdb-gen", get_repo(), "af346d4", "Debug",
+exp.add_algorithm("additive-pdb-gen", get_repo(), "2da30e9", "Debug",
                   ["--path", "/infai/heuser0000/stp-pho-solver/PDBFILES"])
 
 exp.add_tasks([get_explicit_pdb("0 2 3 6 7 10 11 14 15")])

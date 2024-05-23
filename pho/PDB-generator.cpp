@@ -13,6 +13,7 @@ int main(int argc, char *argv[]) {
     std::cout << "Attempting to build PDB" << std::endl;
     BuildSTPPDB<GRID_SIZE, GRID_SIZE>();
 
+    std::cout << "Memory used: " << utils::get_peak_memory_in_kb() << " kb" << std::endl;
     return 0;
 }
 

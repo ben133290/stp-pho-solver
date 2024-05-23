@@ -24,7 +24,9 @@ add_executable(max_solver pho/Max-pdb-solver.cpp
 
 add_executable(pdb_generator pho/PDB-generator.cpp
         hog2/utils/Timer.cpp
-        hog2/utils/NBitArray.cpp)
+        hog2/utils/NBitArray.cpp
+        downward/system.cc
+        downward/system_unix.cc)
 
 find_package(Threads REQUIRED)
 target_link_libraries(pho_solver PUBLIC Threads::Threads)

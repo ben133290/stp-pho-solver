@@ -877,7 +877,7 @@ void PDBHeuristic<abstractState, abstractAction, abstractEnvironment, state, pdb
 	uint64_t COUNT = GetPDBSize();
     uint64_t memorySize = ((COUNT*8+63)/64);
     std::cout << "required words: " << memorySize << std::endl
-              << "required memory: " << memorySize / (134217728) << "GiB" << std::endl
+              << "required memory: " << static_cast<double>(memorySize) / (134217728) << "GiB" << std::endl
               << std::flush;
 	PDB.Resize(COUNT); // Hier passiert der Fehler
 
@@ -949,8 +949,8 @@ void PDBHeuristic<abstractState, abstractAction, abstractEnvironment, state, pdb
 		}
 		
 		entries += total;//newEntries;
-		printf("Depth %d complete; %1.2fs elapsed. %" PRId64 " new states written; %" PRId64 " of %" PRId64 " total\n",
-			   depth, s.EndTimer(), total, entries, COUNT);
+		printf("Depth %d complete; %1.2fs elapsed. %" PRId64 " new states written; %" PRId64 " of %" PRId64 " total. Progress: %" PRId64 "\n",
+			   depth, s.EndTimer(), total, entries, COUNT, (entries * 100 / COUNT));
 		depth++;
 		coarseOpenCurr.swap(coarseOpenNext);
 
