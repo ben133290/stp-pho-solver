@@ -4,25 +4,21 @@
 Example experiment using a simple vertex cover solver.
 """
 
-import glob
 import os
 import platform
 
 from downward.reports.absolute import AbsoluteReport
-from lab.environments import BaselSlurmEnvironment, LocalEnvironment
-from pho_experiment import PhOExperiment, ExpType
-from pho_experiment import get_repo
+from lab.environments import BaselSlurmEnvironment
+from pho_experiment import PhOExperiment, ExpType, get_repo
 from lab.parser import Parser
 from benchmarks import *
-from lab.reports import Attribute
-
 
 NODE = platform.node()
 REMOTE = NODE.endswith(".scicore.unibas.ch") or NODE.endswith(".cluster.bc2.ch")
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 TIME_LIMIT = 1800
 MEMORY_LIMIT = 2048
-ENV = BaselSlurmEnvironment(cpus_per_task=20)
+ENV = BaselSlurmEnvironment(cpus_per_task=8)
 ATTRIBUTES = ["average", "count", "wctime"]
 
 """
@@ -52,11 +48,14 @@ CREATE EXPERIMENT AND ADD RUNS
 exp = PhOExperiment(exp_type=ExpType.PDBGEN, environment=ENV, time_limit=TIME_LIMIT, memory_limit=MEMORY_LIMIT)
 # Add custom parser.
 exp.add_parser(make_parser())
+exp.add_parser()
 
-exp.add_algorithm("additive-pdb-gen", get_repo(), "2da30e9", "Debug",
+exp.add_algorithm("additive-pdb-gen", get_repo(), "01db3e5", "Debug",
                   ["--path", "/infai/heuser0000/stp-pho-solver/PDBFILES"])
 
-exp.add_tasks([get_explicit_pdb("0 2 3 6 7 10 11 14 15")])
+exp.add_tasks([get_explicit_pdb("0 1 2 3"), get_explicit_pdb("0 4 5 6 7"), get_explicit_pdb("0 8 9 10 11"),
+               get_explicit_pdb("0 12 13 14 15"), get_explicit_pdb("0 4 8 12"), get_explicit_pdb("0 1 5 9 13"),
+               get_explicit_pdb("0 2 6 10 14"), get_explicit_pdb("0 3 7 11 15")])
 
 # exp.add_tasks([get_explicit_pdb("0 1 2 3 4 5 6 7")])
 
