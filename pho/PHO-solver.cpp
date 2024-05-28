@@ -11,15 +11,18 @@ enum HeuristicType {
 
 int main(int argc, char *argv[]) {
 
-    utils::register_event_handlers();
-
+    // Command line options
     std::vector<int> startState;
     int numPatterns = 0;
     bool verbose = false;
     int korfIndex = -1;
     int random = 0;
     HeuristicType heuristicType;
+    std::vector<slideDir> path;
+    std::vector<int> inputpattern;
+    std::vector<std::vector<int>> patterns;
 
+    utils::register_event_handlers();
 
     // Command line parsing
     CLI::App app{"Post hoc optimization solver for sliding tile puzzle"};
@@ -36,6 +39,12 @@ int main(int argc, char *argv[]) {
     app.add_option("-r", random, "Use random state with walk length n");
     app.add_option("--heuristic", heuristicType, "Choose heuristic: 0 = PHO, 1 = Sum, 2 = Max")->default_val(0);
     CLI11_PARSE(app, argc, argv);
+
+    MNPuzzle<GRID_SIZE, GRID_SIZE> mnp;
+    MNPuzzleState<GRID_SIZE, GRID_SIZE> goal;
+    MNPuzzleState<GRID_SIZE, GRID_SIZE> input;
+    IDAStar<MNPuzzleState<GRID_SIZE, GRID_SIZE>, slideDir, false> idaStar;
+
 
     if (korfIndex > 99) {
         korfIndex = 99;
@@ -115,7 +124,7 @@ int main(int argc, char *argv[]) {
     auto start = std::chrono::system_clock::now();
     idaStar.GetPath(&mnp, input, goal, path);
     auto end = std::chrono::system_clock::now();
-    auto diff = std::chrono::duration_cast<std::chrono::seconds>(end - start);
+    auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
     std::cout << "Total solve time: " << diff.count() << " seconds" << std::endl;
 
     // Print Solution

@@ -28,22 +28,9 @@ int threads = std::thread::hardware_concurrency();
 std::string pdbPath;
 //std::vector<int> pattern;
 
-MNPuzzle<GRID_SIZE, GRID_SIZE> mnp;
-MNPuzzleState<GRID_SIZE, GRID_SIZE> goal;
-MNPuzzleState<GRID_SIZE, GRID_SIZE> input;
-
-std::vector<slideDir> path;
-std::vector<int> inputpattern;
-std::vector<std::vector<int>> patterns;
-
-IDAStar<MNPuzzleState<GRID_SIZE, GRID_SIZE>, slideDir, false> idaStar;
-
 template<int width, int height>
 int LoadSTPPDB(LexPermutationPDB<MNPuzzleState<width, height>, slideDir, MNPuzzle<width, height>> &pdb) {
     if (pdb.Load(pdbPath.c_str())) {
-        //printf("Loaded successfully\n");
-        //pdb.PrintHistogram();
-
         if (compression != 1) {
             pdb.DivCompress(compression, true);
         }
