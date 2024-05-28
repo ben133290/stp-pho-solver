@@ -12,9 +12,7 @@ from lab.parser import Parser
 from benchmarks import get_korf_for_range
 from lab.reports import Attribute, geometric_mean
 
-TIME_LIMIT = 1800
-MEMORY_LIMIT = 2048
-ENV = BaselSlurmEnvironment()
+ENV = BaselSlurmEnvironment(cpus_per_task=16)
 ATTRIBUTES = ["solution", "wctime", "time", Attribute("mean time", function=geometric_mean)]
 
 """
@@ -44,31 +42,21 @@ CREATE EXPERIMENT AND ADD RUNS
 """
 
 # Create a new experiment.
-exp = PhOExperiment(exp_type=ExpType.PHO, environment=ENV, time_limit=TIME_LIMIT, memory_limit=MEMORY_LIMIT)
+exp = PhOExperiment(exp_type=ExpType.PHO, environment=ENV)
 # Add custom parser.
 exp.add_parser(make_parser())
 # exp.add_parser(ExitcodeParser())
 
-exp.add_algorithm("rows-cols", get_repo(), "01db3e5", "Release",
-                  "-p 0 1 2 3 -p 0 4 5 6 7 -p 0 8 9 10 11 -p 0 12 13 14 15 "
-                  "-p 0 4 8 12 -p 0 1 5 9 13 -p 0 2 6 10 14 -p 0 3 7 11 15 -v false "
+exp.add_algorithm("four seasons", get_repo(), "01db3e5", "Release",
+                  "-p 0 1 2 3 4 5 6 7 -p 0 8 9 10 11 12 13 14 15 -p 0 1 4 5 8 9 12 13 -p 0 2 3 6 7 10 11 14 15 "
+                  "-v false "
                   "--pdbPathPrefix /infai/heuser0000/stp-pho-solver/PDBFILES/".split())
 
-exp.add_algorithm("rows", get_repo(), "01db3e5", "Release",
-                  "-p 0 1 2 3 -p 0 4 5 6 7 -p 0 8 9 10 11 -p 0 12 13 14 15 -v false "
+exp.add_algorithm("german flag", get_repo(), "01db3e5", "Release",
+                  "-p 0 1 2 3 4 5 6 7 -p 0 8 9 10 11 12 13 14 15 -p 0 4 5 6 7 8 9 10 11 "
+                  "-v false "
                   "--pdbPathPrefix /infai/heuser0000/stp-pho-solver/PDBFILES/".split())
 
-exp.add_algorithm("cols", get_repo(), "01db3e5", "Release",
-                  "-p 0 4 8 12 -p 0 1 5 9 13 -p 0 2 6 10 14 -p 0 3 7 11 15 -v false "
-                  "--pdbPathPrefix /infai/heuser0000/stp-pho-solver/PDBFILES/".split())
-
-exp.add_algorithm("rows-sum", get_repo(), "01db3e5", "Release",
-                  "-p 0 1 2 3 -p 0 4 5 6 7 -p 0 8 9 10 11 -p 0 12 13 14 15 -v false --heuristic 1 "
-                  "--pdbPathPrefix /infai/heuser0000/stp-pho-solver/PDBFILES".split())
-
-exp.add_algorithm("rows-max", get_repo(), "01db3e5", "Release",
-                  "-p 0 1 2 3 -p 0 4 5 6 7 -p 0 8 9 10 11 -p 0 12 13 14 15 -v false --heuristic 2 "
-                  "--pdbPathPrefix /infai/heuser0000/stp-pho-solver/PDBFILES".split())
 
 exp.add_tasks(get_korf_for_range(22, 23))
 

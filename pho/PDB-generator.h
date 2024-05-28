@@ -11,8 +11,6 @@
 #include "../hog2/search/LexPermutationPDB.h"
 #include "../downward/system.h"
 
-#define GRID_SIZE 4
-
 // Stuff for Building PDB
 template<int width, int height>
 void BuildSTPPDB();
@@ -22,17 +20,15 @@ bool delta = false; // Has something to do with compression
 int compression = 1; // Compression factor (probably)
 int threads = std::thread::hardware_concurrency();
 std::string pdbPath;
-
-MNPuzzle<GRID_SIZE, GRID_SIZE> mnp;
-MNPuzzleState<GRID_SIZE, GRID_SIZE> goal;
-
+int gridSize = 4;
 std::vector<int> pattern;
 
 void initCLI(char **&argv, CLI::App &app);
 
 template<int width, int height>
 void BuildSTPPDB() {
-    //MNPuzzle<width, height> mnp;
+    MNPuzzle<width, height> mnp;
+    MNPuzzleState<width, height> goal;
     std::vector<slideDir> moves;
     goal.Reset();
     mnp.StoreGoal(goal);
