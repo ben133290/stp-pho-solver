@@ -8,43 +8,17 @@ from downward.parsers.exitcode_parser import ExitcodeParser
 from downward.reports.absolute import AbsoluteReport
 from lab.environments import BaselSlurmEnvironment
 from pho_experiment import PhOExperiment, ExpType, get_repo
-from lab.parser import Parser
+from parsers import solver_parser
 from benchmarks import get_korf_for_range
 from lab.reports import Attribute, geometric_mean
 
 ENV = BaselSlurmEnvironment(cpus_per_task=16)
-ATTRIBUTES = ["solution", "wctime", "time", Attribute("mean time", function=geometric_mean)]
-
-"""
-CREATE PARSER
-"""
-
-
-def make_parser():
-    vc_parser = Parser()
-    vc_parser.add_pattern(
-        "solution", r"Solution: (.*)\n", type=str, required=False
-    )
-    vc_parser.add_pattern(
-        "time", r"Total solve time: (.*) seconds", type=int, required=False
-    )
-    vc_parser.add_pattern(
-        "mean time", r"Total solve time: (.*) seconds", type=int, required=False
-    )
-    vc_parser.add_pattern(
-        "wctime", r"wall-clock time: (.*)s", type=float, required=True, file="driver.log"
-    )
-    return vc_parser
-
-
-"""
-CREATE EXPERIMENT AND ADD RUNS
-"""
+ATTRIBUTES = ["solution", "wctime", "time", Attribute("mean time", function=geometric_mean), "generated", "expansions"]
 
 # Create a new experiment.
 exp = PhOExperiment(exp_type=ExpType.PHO, environment=ENV)
 # Add custom parser.
-exp.add_parser(make_parser())
+exp.add_parser(solver_parser())
 # exp.add_parser(ExitcodeParser())
 
 exp.add_algorithm("four seasons", get_repo(), "01db3e5", "Release",
@@ -58,7 +32,7 @@ exp.add_algorithm("german flag", get_repo(), "01db3e5", "Release",
                   "--pdbPathPrefix /infai/heuser0000/stp-pho-solver/PDBFILES/".split())
 
 
-exp.add_tasks(get_korf_for_range(22, 23))
+exp.add_tasks(get_korf_for_range(50, 51))
 
 
 # Make a report.
