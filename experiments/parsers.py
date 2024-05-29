@@ -1,4 +1,5 @@
 from lab.parser import Parser
+from lab.reports import Attribute, finite_sum, geometric_mean
 
 
 def solver_parser():
@@ -7,18 +8,29 @@ def solver_parser():
         "solution", r"Solution: (.*)\n", type=str, required=False
     )
     parser.add_pattern(
-        "time", r"Total solve time: (.*) seconds", type=int, required=False
+        "wallclock time", r"wall-clock time: (.*) ", type=float, required=True, file="driver.log"
     )
     parser.add_pattern(
-        "mean time", r"Total solve time: (.*) seconds", type=int, required=False
+        "system time", r"System time: (.*) ms", type=int, required=False
     )
     parser.add_pattern(
-        "wctime", r"wall-clock time: (.*)s", type=float, required=True, file="driver.log"
+        "mean time", r"System time: (.*) seconds", type=int, required=False
     )
     parser.add_pattern(
-        "expansions", r"Expansions: (.*)\n", type=int, required=False
+        "expansions", r"Expanded: (.*)\n", type=int, required=False
     )
     parser.add_pattern(
         "generated", r"Generated: (.*)\n", type=int
     )
     return parser
+
+
+def solver_attributes():
+    return [
+        Attribute("solution"),
+        Attribute("wallclock time"),
+        Attribute("system time"),
+        Attribute("mean time", function=geometric_mean),
+        Attribute("expansions"),
+        Attribute("generated"),
+    ]
