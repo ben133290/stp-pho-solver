@@ -11,6 +11,9 @@ enum HeuristicType {
 
 int main(int argc, char *argv[]) {
 
+    std::cout << std::endl << "------------\n"
+                              "DEBUG:\n"
+                              "------------";
     // Command line options
     std::vector<int> startState;
     int numPatterns = 0;
@@ -118,14 +121,16 @@ int main(int argc, char *argv[]) {
             utils::exit_with(utils::ExitCode::SEARCH_INPUT_ERROR);
     }
     
-
+    std::cout << std::endl << "------------\n"
+                              "METRICS:\n"
+                              "------------\n";
     // IDASTAR
     idaStar.SetHeuristic(heuristic);
     auto start = std::chrono::system_clock::now();
     idaStar.GetPath(&mnp, input, goal, path);
     auto end = std::chrono::system_clock::now();
     auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-    std::cout << "Total solve time: " << diff.count() << " seconds" << std::endl;
+    std::cout << "System time: " << diff.count() << " ms" << std::endl;
 
     // Print Solution
     std::cout << "Solution: ";

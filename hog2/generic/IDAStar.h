@@ -138,7 +138,7 @@ void IDAStar<state, action, verbose>::GetPath(SearchEnvironment<state, action> *
 		DoIteration(env, act[0], from, thePath, nextBound, 0, 0, rootH);
 		PrintGHistogram();
 	}
-    printf("Maximum Bound: %f\n Expanded: %" PRId64 "\nGenerated: %" PRId64 "\n", nextBound, nodesExpanded, nodesTouched);
+    printf("Bound: %d\nExpanded: %" PRId64 "\nGenerated: %" PRId64 "\n", nextBound, nodesExpanded, nodesTouched);
 }
 
 template <class state, class action, bool verbose>
