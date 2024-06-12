@@ -9,16 +9,15 @@ import platform
 
 from downward.reports.absolute import AbsoluteReport
 from lab.environments import BaselSlurmEnvironment
-from pho_experiment import PhOExperiment, ExpType, get_repo
+from pho_experiment import PhOExperiment, ExpType
+from pho_experiment import get_repo
 from lab.parser import Parser
 from benchmarks import *
 
 NODE = platform.node()
 REMOTE = NODE.endswith(".scicore.unibas.ch") or NODE.endswith(".cluster.bc2.ch")
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-TIME_LIMIT = 1800
-MEMORY_LIMIT = 2048
-ENV = BaselSlurmEnvironment(cpus_per_task=8)
+ENV = BaselSlurmEnvironment(cpus_per_task=1)
 ATTRIBUTES = ["average", "count", "wctime"]
 
 """
@@ -45,19 +44,16 @@ CREATE EXPERIMENT AND ADD RUNS
 """
 
 # Create a new experiment.
-exp = PhOExperiment(exp_type=ExpType.PDBGEN, environment=ENV, time_limit=TIME_LIMIT, memory_limit=MEMORY_LIMIT)
+exp = PhOExperiment(exp_type=ExpType.PDBGEN, environment=ENV)
 # Add custom parser.
 exp.add_parser(make_parser())
-exp.add_parser()
 
-exp.add_algorithm("additive-pdb-gen", get_repo(), "01db3e5", "Debug",
+exp.add_algorithm("additive-pdb-gen", get_repo(), "c60f22bcf7b34983c5f157f96a8bf6557efe00be", "Debug",
                   ["--path", "/infai/heuser0000/stp-pho-solver/PDBFILES"])
 
-exp.add_tasks([get_explicit_pdb("0 1 2 3"), get_explicit_pdb("0 4 5 6 7"), get_explicit_pdb("0 8 9 10 11"),
-               get_explicit_pdb("0 12 13 14 15"), get_explicit_pdb("0 4 8 12"), get_explicit_pdb("0 1 5 9 13"),
-               get_explicit_pdb("0 2 6 10 14"), get_explicit_pdb("0 3 7 11 15")])
+exp.add_tasks([build_pattern_list("1 2 4 5 6 8 9 10"), build_pattern_list("1 4 5 7 9 11 13"),
+               build_pattern_list("5 6 8 9 10 12 13 14")])
 
-# exp.add_tasks([get_explicit_pdb("0 1 2 3 4 5 6 7")])
 
 # Make a report.
 exp.add_report(AbsoluteReport(attributes=ATTRIBUTES), outfile="report.html")

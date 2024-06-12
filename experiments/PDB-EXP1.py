@@ -48,14 +48,12 @@ exp = PhOExperiment(exp_type=ExpType.PDBGEN, environment=ENV)
 # Add custom parser.
 exp.add_parser(make_parser())
 
-exp.add_algorithm("additive-pdb-gen", get_repo(), "01db3e5", "Debug",
+exp.add_algorithm("additive-pdb-gen", get_repo(), "c60f22bcf7b34983c5f157f96a8bf6557efe00be", "Debug",
                   ["--path", "/infai/heuser0000/stp-pho-solver/PDBFILES"])
 
-exp.add_tasks([get_explicit_pdb("0 1 2 3 4 5 6 7"), get_explicit_pdb("0 8 9 10 11 12 13 14 15"),
-               get_explicit_pdb("0 4 5 6 7 8 9 10 11"), get_explicit_pdb("0 1 2 5 6 9 10 13 14"),
-               get_explicit_pdb("0 1 4 5 8 9 12 13"), get_explicit_pdb("0 2 3 6 7 10 11 14 15")])
+exp.add_tasks(add_from_file("/infai/heuser0000/stp-pho-solver/experiments/randpdbs.txt"))
 
-# exp.add_tasks([get_explicit_pdb("0 1 2 3 4 5 6 7")])
+
 
 # Make a report.
 exp.add_report(AbsoluteReport(attributes=ATTRIBUTES), outfile="report.html")
