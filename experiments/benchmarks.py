@@ -20,8 +20,7 @@ def check_file_exists(number_string):
     file_exists = os.path.isfile(file_path)
     if not file_exists:
         # Raise a FileNotFoundError if the file does not exist
-        print(f"The file {filename} does not exist in the directory {directory}\n"
-                                f"Pattern: {number_string}")
+        print(f"The file {filename} does not exist in the directory {directory} Pattern: {number_string}\n")
     return file_exists
 
 
@@ -34,16 +33,13 @@ def build_state_list(state):
     return ["-s"] + state.split()
 
 
-def build_pattern_list(pattern: str):
-    if check_file_exists(pattern):
+def build_pattern_list(pattern: str, expect_file: bool = True):
+    file_exists = check_file_exists(pattern)
+    if file_exists == expect_file:
         return ["-p", "0"] + pattern.split()
     else:
-        print("Pattern " + pattern + " file doesn't exist, do you want to continue? (y/n)")
-        answer = input()
-        if answer.lower() == "y":
-            return ["-p", "0"] + pattern.split()
-        else:
-            raise FileNotFoundError(f"Pattern file {pattern} missing")
+        print("Pattern " + pattern + f" file {file_exists} ?= {expect_file} exist, do you want to continue? (y/n)")
+        raise FileNotFoundError(f"Pattern file {pattern} missing")
 
 
 def get_pdbs_for_range(start: int, end: int):

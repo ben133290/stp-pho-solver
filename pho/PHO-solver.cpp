@@ -106,6 +106,7 @@ int main(int argc, char *argv[]) {
     Heuristic<MNPuzzleState<GRID_SIZE, GRID_SIZE>> *heuristic;
     switch (heuristicType) {
         case PHO:
+            std::cout << "Heuristic: pho" << std::endl;
             heuristic = new PHOHeuristic<STATE, slideDir, ENVIRONMENT>(std::move(heuristicVec),patterns, verbose);
             break;
         case SUM:
@@ -129,8 +130,9 @@ int main(int argc, char *argv[]) {
     auto start = std::chrono::system_clock::now();
     idaStar.GetPath(&mnp, input, goal, path);
     auto end = std::chrono::system_clock::now();
-    auto diff = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-    std::cout << "System time: " << diff.count() << " ms" << std::endl;
+    auto diff = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
+    std::cout << "System time: " << diff.count() << " μs" << std::endl;
+
 
     // Print Solution
     std::cout << "Solution: ";
