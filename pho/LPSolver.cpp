@@ -25,14 +25,16 @@ int LPSolver::init(const std::vector<std::vector<int>> &patterns) {
     double obj[numCols];
     double lb[numCols];
     double ub[numCols];
-    char *colname[numCols];
     int rmatbeg[numRows];
     int rmatind[numnz];
     double rmatval[numnz];
     double rhs[numRows];
     char sense[numRows];
-    char *rowname[numRows];
 
+    indices.reserve(patterns.size());
+    for (int i = 0; i < patterns.size(); i++) {
+        indices.push_back(i);
+    }
     status = CPXchgobjsen(env, lp, CPX_MIN);  /* Problem is minimization */
     if (status) return status;
 
@@ -59,22 +61,6 @@ int LPSolver::init(const std::vector<std::vector<int>> &patterns) {
         }
         sense[row] = 'G'; // Upper bound means LHS >= RHS
         rhs[row] = 0;
-    }
-
-    if (verbose) {
-        std::cout << "rmatind:";
-        for (int i = 0; i < numnz; i++) {
-            std::cout << " " << rmatind[i];
-        }
-        std::cout << "\nrmatbeg:";
-        for (int i = 0; i < numRows; i++) {
-            std::cout << " " << rmatbeg[i];
-        }
-        std::cout << "\nrmatval:";
-        for (int i = 0; i < numnz; i++) {
-            std::cout << " " << rmatval[i];
-        }
-        std::cout << std::endl;
     }
 
     status = CPXaddrows(env, lp, 0, numRows, numnz, rhs, sense, rmatbeg,
@@ -104,32 +90,14 @@ void LPSolver::handle_cplex_error(CPXENVptr env, int status) {
 double LPSolver::solve(const std::vector<double> &rhs) {
 
     // SET RHS
-    if (verbose) {
-        std::cout << "Attempting to Solve LP with RHS: " << std::endl;
-    }
-    std::vector<int> indices;
-    indices.reserve(rhs.size());
-    for (int i = 0; i < rhs.size(); i++) {
-        indices.push_back(i);
-        if (verbose) {
-            std::cout << "rhs[" << i << "] = " << rhs[i] << std::endl;
-        }
-    }
     CPX_CALL(CPXchgrhs, env, lp, rhs.size(), indices.data(), rhs.data());
-
 
     // SOLVE
     CPX_CALL(CPXlpopt, env, lp);
 
-    if (verbose) { std::cout << "solved" << std::endl; }
-
     // GET RESULT
     double value;
     CPX_CALL(CPXgetobjval, env, lp, &value);
-    if (verbose) {
-        std::cout << "result: " << value << std::endl;
-    }
-
     return value;
 }
 

@@ -4,7 +4,7 @@ import re
 
 
 def parse_expansions_per_second(content, props):
-    matches = re.findall(r"Expanded: (.*)\n.*\nSystem time: (.*) ms", content)
+    matches = re.findall(r"Expanded: (.*)\n.*\nSystem time: (.*) μs", content)
     print(matches)
     unpack = [(float(e) * 1000000 / float(s)) for (e, s) in matches]
     print(unpack)

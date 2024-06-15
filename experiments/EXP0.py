@@ -24,14 +24,14 @@ exp.add_parser(solver_parser())
 # exp.add_parser(ExitcodeParser())
 
 exp.add_algorithm("PAPDB-7-8" + str(sample), get_repo(),
-                  "c60f22bcf7b34983c5f157f96a8bf6557efe00be",
+                  "459972b",
                   "Release",
                   build_pattern_list("1 2 3 4 5 6 7", True)
                   + build_pattern_list("8 9 10 11 12 13 14 15", True)
                   + "--heuristic 1 --pdbPathPrefix /infai/heuser0000/stp-pho-solver/PDBFILES/".split())
 
 exp.add_algorithm("PAPDB-5-5-5" + str(sample), get_repo(),
-                  "c60f22bcf7b34983c5f157f96a8bf6557efe00be",
+                  "459972b",
                   "Release",
                   build_pattern_list("1 2 4 5 8", True)
                   + build_pattern_list("3 6 7 10 11", True)
@@ -39,7 +39,7 @@ exp.add_algorithm("PAPDB-5-5-5" + str(sample), get_repo(),
                   + "--heuristic 1 --pdbPathPrefix /infai/heuser0000/stp-pho-solver/PDBFILES/".split())
 
 exp.add_algorithm("PAPDB-6-6-3" + str(sample), get_repo(),
-                  "c60f22bcf7b34983c5f157f96a8bf6557efe00be",
+                  "459972b",
                   "Release",
                   build_pattern_list("1 2 4 5 8 9", True)
                   + build_pattern_list("3 6 7 10 11 15", True)

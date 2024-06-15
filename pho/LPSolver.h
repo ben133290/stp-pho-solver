@@ -29,6 +29,7 @@ private:
     int numCols;
     int numnz;
     bool verbose = false;
+    std::vector<int> indices;
 
     CPXLPptr createProblem(const std::string &name);
 
