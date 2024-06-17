@@ -19,6 +19,7 @@ int main(int argc, char *argv[]) {
     int numPatterns = 0;
     bool verbose = false;
     int korfIndex = -1;
+    bool useHeuser = false;
     int random = 0;
     HeuristicType heuristicType;
     std::vector<slideDir> path;
@@ -39,6 +40,7 @@ int main(int argc, char *argv[]) {
     app.add_option("-p", patterns, "Specify a pattern to use/search");
     app.add_option("-v", verbose, "If used, debugging printouts are enabled")->default_val(false);
     app.add_option("-k", korfIndex, "Use given korf instance as start state. Must be in range 0-99");
+    app.add_option("-H", useHeuser, "Use given heuser instance as start state. Must be in range 0-99");
     app.add_option("-r", random, "Use random state with walk length n");
     app.add_option("--heuristic", heuristicType, "Choose heuristic: 0 = PHO, 1 = Sum, 2 = Max")->default_val(0);
     CLI11_PARSE(app, argc, argv);
@@ -73,6 +75,8 @@ int main(int argc, char *argv[]) {
                 std::cout << "Passed solvability check" << std::endl;
             }
         }
+    } else if (useHeuser) {
+        input = STP::GetHeuserInstance(korfIndex);
     } else {
         input = STP::GetKorfInstance(korfIndex);
     }

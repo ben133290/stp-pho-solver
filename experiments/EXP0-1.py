@@ -24,7 +24,7 @@ exp.add_parser(solver_parser())
 # exp.add_parser(ExitcodeParser())
 
 exp.add_algorithm("pinwheel", get_repo(),
-                  "c60f22bcf7b34983c5f157f96a8bf6557efe00be",
+                  "a812077",
                   "Release",
                   build_pattern_list("1 2 3 6 7")
                   + build_pattern_list("4 5 8 9 12")
@@ -34,7 +34,7 @@ exp.add_algorithm("pinwheel", get_repo(),
                   + build_pattern_list("10 11 13 14 15")
                   + "--pdbPathPrefix /infai/heuser0000/stp-pho-solver/PDBFILES/".split())
 
-exp.add_algorithm("663 wheel", get_repo(),"c60f22bcf7b34983c5f157f96a8bf6557efe00be",
+exp.add_algorithm("663 wheel", get_repo(), "a812077",
                   "Release",
                   build_pattern_list("1 2 4 5 6 8")
                   + build_pattern_list("3 7 11")

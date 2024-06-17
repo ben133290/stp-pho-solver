@@ -63,6 +63,11 @@ def get_korf(n: int):
     return result
 
 
+def get_heuser(n: int):
+    result: [str] = ["-k", str(n), "-H", 1]
+    return result
+
+
 def get_random(walklength: int):
     return ["-r", str(walklength)]
 
