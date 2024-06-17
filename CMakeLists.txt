@@ -18,7 +18,10 @@ add_executable(pho_solver pho/PHO-solver.cpp
         pho/SumHeuristic.h)
 
 add_executable(pdb_generator pho/PDB-generator.cpp
-        hog2/environments/STPInstances.cpp)
+        hog2/utils/Timer.cpp
+        hog2/utils/NBitArray.cpp
+        downward/system.cc
+        downward/system_unix.cc)
 
 add_executable(instances_maker pho/InstancesMaker.cpp
         hog2/environments/STPInstances.cpp)
