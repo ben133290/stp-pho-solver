@@ -1,6 +1,7 @@
 from itertools import combinations
 from matplotlib import pyplot as plt
 import numpy as np
+import random as rd
 
 
 def get_connectedness_data(pattern_size: int):
@@ -33,24 +34,64 @@ def generate_subsets(n):
     return subsets
 
 
+def getKey(e):
+    match e:
+        case (c, p):
+            return c
+        case _:
+            return 0
+
+
 if __name__ == '__main__':
 
-    # make data
+    """    # make data
     x = range(0, 9)
-    y = [get_connectedness_data(5).count(i) for i in range(0, 9)]
+    y = [get_connectedness_data(7).count(i) for i in range(0, 9)]
 
     # plot
     fig, ax = plt.subplots()
 
     ax.stem(x, y, 'dimgray', basefmt=" ")
 
-    ax.set(xlim=(0, 8), ylim=(0, 1800))
+    ax.set(xlim=(0, 8), ylim=(0, 2500))
 
     # Add title and labels
     plt.xlabel('Connectedness')
     plt.ylabel('Occurrences')
 
     # Show the plot
-    plt.savefig('stemplot5.png')
+    plt.savefig('stemplot7.png')
+    """
 
+    all_patterns = get_patterns_with_connectedness(6)
+    all_patterns.sort(key=getKey)
+    bins = [list(filter(lambda x: getKey(x) <= 1, all_patterns)),
+            list(filter(lambda x: 2 <= getKey(x) <= 3, all_patterns)),
+            list(filter(lambda x: 4 <= getKey(x) <= 4, all_patterns)),
+            list(filter(lambda x: 5 <= getKey(x) <= 5, all_patterns)),
+            list(filter(lambda x: 6 <= getKey(x) <= 7, all_patterns))]
+    # print(bins[4])
 
+    collections = [rd.sample(bins[filtered_bin], 10) for filtered_bin in range(5) for sample in range(20)]
+
+    print("average connectedness")
+    s = 0
+    for col in collections[0:20]:
+        s += sum([getKey(e) for e in col])
+    print(s / 20)
+    s = 0
+    for col in collections[20:40]:
+        s += sum([getKey(e) for e in col])
+    print(s / 20)
+    s = 0
+    for col in collections[40:60]:
+        s += sum([getKey(e) for e in col])
+    print(s / 20)
+    s = 0
+    for col in collections[60:80]:
+        s += sum([getKey(e) for e in col])
+    print(s / 20)
+    s = 0
+    for col in collections[80:100]:
+        s += sum([getKey(e) for e in col])
+    print(s / 20)

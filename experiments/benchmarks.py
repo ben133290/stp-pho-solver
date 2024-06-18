@@ -58,13 +58,22 @@ def get_korf_for_range(start: int, end: int):
     return result
 
 
+def get_heuser_for_range(start: int, end: int):
+    assert (end > start >= 0)
+    result = []
+    for i in range(start, end):
+        result += [get_heuser(i)]
+    return result
+
+
+
 def get_korf(n: int):
     result: [str] = ["-k", str(n)]
     return result
 
 
 def get_heuser(n: int):
-    result: [str] = ["-k", str(n), "-H", 1]
+    result: [str] = ["-k", str(n), "-H", str(1)]
     return result
 
 

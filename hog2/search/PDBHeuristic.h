@@ -896,7 +896,8 @@ void PDBHeuristic<abstractState, abstractAction, abstractEnvironment, state, pdb
 	
 	std::deque<state> q_curr, q_next;
 	std::vector<state> children;
-	
+
+    std::cout << "Test1\n";
 	Timer t;
 	t.StartTimer();
 	for (auto &i : goalState)
@@ -904,6 +905,7 @@ void PDBHeuristic<abstractState, abstractAction, abstractEnvironment, state, pdb
 		PDB.Set(GetPDBHash(i), 0);
 		coarseOpenCurr[GetPDBHash(i)/coarseSize] = true;
 	}
+    std::cout << "Test2\n";
 	int depth = 0;
 	uint64_t newEntries;
 	std::vector<std::thread*> threads(numThreads);
