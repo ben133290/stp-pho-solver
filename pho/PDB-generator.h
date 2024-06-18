@@ -37,7 +37,7 @@ void BuildSTPPDB() {
 
     if (additive) {
         mnp.SetPattern(pattern);
-        pdb.BuildAdditivePDB(goal, threads); // parallelism not fixed yet
+        pdb.BuildAdditivePDB(goal, 1); // parallelism not fixed yet
         if (delta)
             pdb.DeltaCompress(&mnp, goal, true);
         if (compression != 1) {
