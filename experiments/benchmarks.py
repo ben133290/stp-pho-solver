@@ -132,13 +132,22 @@ def flatten(xss):
     return [x for xs in xss for x in xs]
 
 
-def add_from_file(file):
+def add_from_file(filename):
+    groups = []
+    current_group = []
     try:
-        with open(file, 'r') as file:
-            lines = file.readlines()
-            # Strip the newline character from each line
-            lines = [build_pattern_list(line.strip()) for line in lines]
-        return lines
+        with open(filename, 'r') as file:
+            for line in file:
+                stripped_line = line.strip()
+                if stripped_line:
+                    current_group += build_pattern_list(stripped_line, expect_file=True)
+                else:
+                    if current_group:
+                        groups.append(current_group)
+                        current_group = []
+        if current_group:
+            groups.append(current_group)
+        return groups
     except FileNotFoundError:
         print(f"Error: The file at {file} was not found.")
         return []

@@ -2,6 +2,8 @@ from itertools import combinations
 from matplotlib import pyplot as plt
 import numpy as np
 import random as rd
+from benchmarks import append_to_file, add_from_file
+from typing import List
 
 
 def get_connectedness_data(pattern_size: int):
@@ -42,27 +44,19 @@ def getKey(e):
             return 0
 
 
-if __name__ == '__main__':
+def get_pattern_from_pair(e) -> List[int]:
+    match e:
+        case (c, p):
+            return p
+        case _:
+            return 0
 
-    """    # make data
-    x = range(0, 9)
-    y = [get_connectedness_data(7).count(i) for i in range(0, 9)]
 
-    # plot
-    fig, ax = plt.subplots()
+def transform_int_list_to_string_list(l: List[int]) -> List[str]:
+    return [str(i) for i in l]
 
-    ax.stem(x, y, 'dimgray', basefmt=" ")
 
-    ax.set(xlim=(0, 8), ylim=(0, 2500))
-
-    # Add title and labels
-    plt.xlabel('Connectedness')
-    plt.ylabel('Occurrences')
-
-    # Show the plot
-    plt.savefig('stemplot7.png')
-    """
-
+def connected_experiment_fun(filename: str = "/infai/heuser0000/stp-pho-solver/experiments/PDBList-Connectedness.txt"):
     all_patterns = get_patterns_with_connectedness(6)
     all_patterns.sort(key=getKey)
     bins = [list(filter(lambda x: getKey(x) <= 1, all_patterns)),
@@ -95,3 +89,33 @@ if __name__ == '__main__':
     for col in collections[80:100]:
         s += sum([getKey(e) for e in col])
     print(s / 20)
+
+    for col in collections:
+        for pattern_with_con in col:
+            append_to_file(filename,
+                           " ".join(transform_int_list_to_string_list(get_pattern_from_pair(pattern_with_con))))
+        append_to_file(filename, "")
+
+
+def build_connectedness_plots():
+    x = range(0, 9)
+    y = [get_connectedness_data(7).count(i) for i in range(0, 9)]
+
+    # plot
+    fig, ax = plt.subplots()
+
+    ax.stem(x, y, 'dimgray', basefmt=" ")
+
+    ax.set(xlim=(0, 8), ylim=(0, 2500))
+
+    # Add title and labels
+    plt.xlabel('Connectedness')
+    plt.ylabel('Occurrences')
+
+    # Show the plot
+    plt.savefig('stemplot7.png')
+
+
+if __name__ == '__main__':
+    # connected_experiment_fun("/infai/heuser0000/stp-pho-solver/experiments/PDBList-Connectedness.txt")
+    print(add_from_file("/infai/heuser0000/stp-pho-solver/experiments/PDBList-Connectedness.txt")[1])

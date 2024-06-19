@@ -25,7 +25,7 @@ bool additive = false; // Set to true for additive PDB
 bool delta = false; // Has something to do with compression
 int compression = 1; // Compression factor (probably)
 int threads = std::thread::hardware_concurrency();
-std::string pdbPath;
+std::string pdbPath = "/infai/heuser0000/stp-pho-solver/PDBFILES";
 //std::vector<int> pattern;
 
 template<int width, int height>

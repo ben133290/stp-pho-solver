@@ -21,15 +21,15 @@ exp = PhOExperiment(exp_type=ExpType.PHO, environment=ENV)
 # Add custom parser.
 exp.add_parser(solver_parser())
 
+collections = add_from_file("PDBList-Connectedness.txt")
+
 # exp.add_parser(ExitcodeParser())
-
-exp.add_algorithm("Connected", get_repo(), "68913f8", "Release",
-                  (build_pattern_string("1 2 3 4 5 6 7") + build_pattern_string("8 9 10 11 12 13 14 15") +
-                   build_pattern_string("1 4 5 8 9 12 13") + build_pattern_string("2 3 6 7 10 11 14 15") +
-                   "--pdbPathPrefix /infai/heuser0000/stp-pho-solver/PDBFILES/").split())
+for i in range(len(collections)):
+    exp.add_algorithm("collection-" + str(i), get_repo(), "f6e363caf494d60201ce7577b56dba9626784ed6", "Release",
+                      collections[i])
 
 
-exp.add_tasks(get_heuser_for_range(0, 100))
+exp.add_tasks(get_heuser_for_range(0, 1))
 
 # Make a report.
 exp.add_report(AbsoluteReport(attributes=solver_attributes()), outfile="report.html")

@@ -17,7 +17,7 @@ from benchmarks import *
 NODE = platform.node()
 REMOTE = NODE.endswith(".scicore.unibas.ch") or NODE.endswith(".cluster.bc2.ch")
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-ENV = BaselSlurmEnvironment(cpus_per_task=8)
+ENV = BaselSlurmEnvironment(cpus_per_task=1, partition="infai_2")
 ATTRIBUTES = ["average", "count", "wctime"]
 
 """
@@ -48,7 +48,7 @@ exp = PhOExperiment(exp_type=ExpType.PDBGEN, environment=ENV)
 # Add custom parser.
 exp.add_parser(make_parser())
 
-exp.add_algorithm("additive-pdb-gen", get_repo(), "68913f855d5f45c9ee2fe84f963bf093f7534e78", "Release",
+exp.add_algorithm("additive-pdb-gen", get_repo(), "f6e363c", "Debug",
                   ["--path", "/infai/heuser0000/stp-pho-solver/PDBFILES"])
 
 exp.add_tasks(get_pdbs_for_range(6, 7))
