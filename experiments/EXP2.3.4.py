@@ -14,22 +14,19 @@ from parsers import solver_parser, solver_attributes
 from benchmarks import *
 from lab.reports import Attribute, geometric_mean, finite_sum
 
-ENV = BaselSlurmEnvironment(cpus_per_task=8)
+ENV = BaselSlurmEnvironment(cpus_per_task=1, partition="infai_1")
 
 # Create a new experiment.
 exp = PhOExperiment(exp_type=ExpType.PHO, environment=ENV)
 # Add custom parser.
 exp.add_parser(solver_parser())
 
-collections = add_from_file("PDBList-Connectedness.txt")
+collections = add_from_file("PDBList-Connectedness3.txt")
 
 # exp.add_parser(ExitcodeParser())
-for i in range(len(collections)):
-    exp.add_algorithm("collection-" + str(i), get_repo(), "f6e363caf494d60201ce7577b56dba9626784ed6", "Release",
-                      collections[i])
+exp.add_algorithm("somewhat connected", get_repo(), "10d91c9", "Release", [])
 
-
-exp.add_tasks(get_heuser_for_range(0, 1))
+exp.add_tasks([task + collection for task in get_heuser_for_range(0, 100) for collection in collections[400:600]])
 
 # Make a report.
 exp.add_report(AbsoluteReport(attributes=solver_attributes()), outfile="report.html")
