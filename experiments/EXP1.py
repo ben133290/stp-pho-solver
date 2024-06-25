@@ -24,15 +24,15 @@ exp.add_parser(solver_parser())
 
 # exp.add_parser(ExitcodeParser())
 
-for sample in range(2):
-    exp.add_algorithm("random-4-" + str(sample), get_repo(), "c60f22bcf7b34983c5f157f96a8bf6557efe00be", "Release",
-                      add_random_collection(4, 5) +
-                      "--pdbPathPrefix /infai/heuser0000/stp-pho-solver/PDBFILES/".split())
-    exp.add_algorithm("random-3-" + str(sample), get_repo(), "c60f22bcf7b34983c5f157f96a8bf6557efe00be", "Release",
-                      add_random_collection(3, 13 * 5) +
-                      "--pdbPathPrefix /infai/heuser0000/stp-pho-solver/PDBFILES/".split())
+for sample in range(30):
+    exp.add_algorithm("6-"+str(sample), get_repo(), "10d91c9ded6d22573d32e1f0b6f3305b24379d05", "Release",
+                      add_random_collection(6, 5) + ones())
+    exp.add_algorithm("5-"+str(sample), get_repo(), "10d91c9ded6d22573d32e1f0b6f3305b24379d05", "Release",
+                      add_random_collection(5, 50) + ones())
+    exp.add_algorithm("4-"+str(sample), get_repo(), "10d91c9ded6d22573d32e1f0b6f3305b24379d05", "Release",
+                      add_random_collection(4, 550) + ones())
 
-exp.add_tasks(get_korf_for_range(60, 65))
+exp.add_tasks(get_heuser_for_range(0, 100))
 
 # Make a report.
 exp.add_report(AbsoluteReport(attributes=solver_attributes()), outfile="report.html")

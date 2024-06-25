@@ -26,7 +26,7 @@ collections = add_from_file("PDBList-Connectedness.txt")
 # exp.add_parser(ExitcodeParser())
 for i in range(len(collections)):
     exp.add_algorithm("collection-" + str(i), get_repo(), "10d91c9", "Release",
-                      collections[i])
+                      collections[i] + ones())
 
 
 exp.add_tasks(get_heuser_for_range(0, 100))

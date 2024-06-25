@@ -51,7 +51,7 @@ exp.add_parser(make_parser())
 exp.add_algorithm("additive-pdb-gen", get_repo(), "f6e363c", "Debug",
                   ["--path", "/infai/heuser0000/stp-pho-solver/PDBFILES"])
 
-exp.add_tasks(get_pdbs_for_range(6, 7))
+exp.add_tasks(get_pdbs_for_range(1, 3))
 
 # Make a report.
 exp.add_report(AbsoluteReport(attributes=ATTRIBUTES), outfile="report.html")

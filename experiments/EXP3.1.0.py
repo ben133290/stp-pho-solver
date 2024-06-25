@@ -14,28 +14,37 @@ from parsers import solver_parser, solver_attributes
 from benchmarks import *
 from lab.reports import Attribute, geometric_mean, finite_sum
 
-ENV = BaselSlurmEnvironment(cpus_per_task=1, email='ben.heuser@unibas.ch')
+ENV = BaselSlurmEnvironment(cpus_per_task=5, email='ben.heuser@unibas.ch')
 
 # Create a new experiment.
-exp = PhOExperiment(exp_type=ExpType.PHO, environment=ENV)
+exp = PhOExperiment(exp_type=ExpType.PHO, environment=ENV, time_limit=)
 # Add custom parser.
 exp.add_parser(solver_parser())
 
 # exp.add_parser(ExitcodeParser())
 
-exp.add_algorithm("Linear Conflicts", get_repo(),
-                  "10d91c9ded6d22573d32e1f0b6f3305b24379d05",
+exp.add_algorithm("pinwheel", get_repo(),
+                  "a812077",
                   "Release",
-                  flatten(get_pdbs_for_range(2, 3))
+                  build_pattern_list("1 2 3 6 7")
+                  + build_pattern_list("4 5 8 9 12")
+                  + build_pattern_list("10 11 13 14 15")
+                  + build_pattern_list("1 2 3 5 6")
+                  + build_pattern_list("4 5 8 9 12")
+                  + build_pattern_list("10 11 13 14 15")
                   + "--pdbPathPrefix /infai/heuser0000/stp-pho-solver/PDBFILES/".split())
 
-exp.add_algorithm("3", get_repo(),
-                  "10d91c9ded6d22573d32e1f0b6f3305b24379d05",
+exp.add_algorithm("663 wheel", get_repo(), "a812077",
                   "Release",
-                  flatten(get_pdbs_for_range(3, 4))
+                  build_pattern_list("1 2 4 5 6 8")
+                  + build_pattern_list("3 7 11")
+                  + build_pattern_list("9 10 12 13 14 15")
+                  + build_pattern_list("1 2 4 5 8 9")
+                  + build_pattern_list("3 6 7 10 11 15")
+                  + build_pattern_list("12 13 14")
                   + "--pdbPathPrefix /infai/heuser0000/stp-pho-solver/PDBFILES/".split())
 
-exp.add_tasks(get_korf_for_range(0, 100))
+exp.add_tasks(get_korf_for_range(0, 2))
 
 # Make a report.
 exp.add_report(AbsoluteReport(attributes=solver_attributes()), outfile="report.html")

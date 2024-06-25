@@ -33,6 +33,10 @@ def build_state_list(state):
     return ["-s"] + state.split()
 
 
+def ones():
+    return flatten([build_pattern_list(str(s)) for s in range(1, 16)])
+
+
 def build_pattern_list(pattern: str, expect_file: bool = True):
     file_exists = check_file_exists(pattern)
     if file_exists == expect_file:
@@ -64,7 +68,6 @@ def get_heuser_for_range(start: int, end: int):
     for i in range(start, end):
         result += [get_heuser(i)]
     return result
-
 
 
 def get_korf(n: int):
@@ -158,4 +161,3 @@ def add_from_file(filename):
 
 if __name__ == '__main__':
     print(add_from_file("/infai/heuser0000/stp-pho-solver/experiments/randpdbs.txt"))
-

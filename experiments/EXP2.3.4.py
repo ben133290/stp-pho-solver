@@ -24,9 +24,9 @@ exp.add_parser(solver_parser())
 collections = add_from_file("PDBList-Connectedness3.txt")
 
 # exp.add_parser(ExitcodeParser())
-exp.add_algorithm("somewhat connected", get_repo(), "10d91c9", "Release", [])
+exp.add_algorithm("connected", get_repo(), "10d91c9", "Release", [])
 
-exp.add_tasks([task + collection for task in get_heuser_for_range(0, 100) for collection in collections[400:600]])
+exp.add_tasks([task + collection for task in get_heuser_for_range(0, 100) for collection in collections[600:700]])
 
 # Make a report.
 exp.add_report(AbsoluteReport(attributes=solver_attributes()), outfile="report.html")

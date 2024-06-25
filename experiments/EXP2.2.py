@@ -21,7 +21,7 @@ exp = PhOExperiment(exp_type=ExpType.PHO, environment=ENV)
 # Add custom parser.
 exp.add_parser(solver_parser())
 
-collections = add_from_file("PDBList-Connectedness.txt")
+collections = add_from_file("PDBList-Connectedness2.txt")
 
 # exp.add_parser(ExitcodeParser())
 for i in range(len(collections)):

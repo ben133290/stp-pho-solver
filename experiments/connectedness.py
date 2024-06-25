@@ -61,34 +61,29 @@ def connected_experiment_fun(filename: str = "/infai/heuser0000/stp-pho-solver/e
     all_patterns.sort(key=getKey)
     bins = [list(filter(lambda x: getKey(x) <= 1, all_patterns)),
             list(filter(lambda x: 2 <= getKey(x) <= 3, all_patterns)),
-            list(filter(lambda x: 4 <= getKey(x) <= 4, all_patterns)),
-            list(filter(lambda x: 5 <= getKey(x) <= 5, all_patterns)),
-            list(filter(lambda x: 6 <= getKey(x) <= 7, all_patterns))]
+            list(filter(lambda x: 4 <= getKey(x) <= 5, all_patterns)),
+            list(filter(lambda x: 6 <= getKey(x), all_patterns))]
     # print(bins[4])
 
-    collections = [rd.sample(bins[filtered_bin], 10) for filtered_bin in range(5) for sample in range(20)]
+    collections = [rd.sample(bins[filtered_bin], 10) for filtered_bin in range(4) for sample in range(200)]
 
     print("average connectedness")
     s = 0
-    for col in collections[0:20]:
+    for col in collections[0:200]:
         s += sum([getKey(e) for e in col])
-    print(s / 20)
+    print(s / 200)
     s = 0
-    for col in collections[20:40]:
+    for col in collections[200:400]:
         s += sum([getKey(e) for e in col])
-    print(s / 20)
+    print(s / 200)
     s = 0
-    for col in collections[40:60]:
+    for col in collections[400:600]:
         s += sum([getKey(e) for e in col])
-    print(s / 20)
+    print(s / 200)
     s = 0
-    for col in collections[60:80]:
+    for col in collections[600:800]:
         s += sum([getKey(e) for e in col])
-    print(s / 20)
-    s = 0
-    for col in collections[80:100]:
-        s += sum([getKey(e) for e in col])
-    print(s / 20)
+    print(s / 200)
 
     for col in collections:
         for pattern_with_con in col:
@@ -117,5 +112,5 @@ def build_connectedness_plots():
 
 
 if __name__ == '__main__':
-    # connected_experiment_fun("/infai/heuser0000/stp-pho-solver/experiments/PDBList-Connectedness.txt")
-    print(add_from_file("/infai/heuser0000/stp-pho-solver/experiments/PDBList-Connectedness.txt")[1])
+    connected_experiment_fun("/infai/heuser0000/stp-pho-solver/experiments/PDBList-Connectedness4.txt")
+    print(add_from_file("/infai/heuser0000/stp-pho-solver/experiments/PDBList-Connectedness2.txt")[1])

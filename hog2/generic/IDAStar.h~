@@ -138,7 +138,7 @@ void IDAStar<state, action, verbose>::GetPath(SearchEnvironment<state, action> *
 		DoIteration(env, act[0], from, thePath, nextBound, 0, 0, rootH);
 		PrintGHistogram();
 	}
-	printf("Bound: %f\nExpanded: %" PRId64 "\nGenerated: %" PRId64 "\n", nextBound, nodesExpanded, nodesTouched);
+    printf("Bound: %d\nExpanded: %" PRId64 "\nGenerated: %" PRId64 "\n", nextBound, nodesExpanded, nodesTouched);
 }
 
 template <class state, class action, bool verbose>
@@ -216,7 +216,7 @@ double IDAStar<state, action, verbose>::DoIteration(SearchEnvironment<state, act
 	std::vector<action> &actions = *actCache.getItem();
 	env->GetActions(currState, actions);
 	nodesTouched += actions.size();
-	nodesExpanded++;	
+	nodesExpanded++;
 	gCostHistogram[g]++;
 	int depth = (int)thePath.size();
 #ifdef t
