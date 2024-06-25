@@ -33,12 +33,51 @@ def solver_parser():
     # parser.add_function(parse_expansions_per_second)
     return parser
 
+def solver_parser_precise_time():
+    # NOTE: Don't use spaces in name attribute
+    parser = Parser()
+    # parser.add_pattern(
+    #    "solution", r"Solution: (.*)\n", type=str, required=False
+    # )
+    parser.add_pattern(
+        "wallclocktime", r"wall-clock time: (.*)s", type=float, required=True, file="driver.log"
+    )
+    parser.add_pattern(
+        "systemtime", r"System time: (.*) μs", type=int, required=False
+    )
+    parser.add_pattern(
+        "solvertime", r"Solving: (.*) μs", type=int, required=False
+    )
+    parser.add_pattern(
+        "retrievingtime", r"Retrieving: (.*) μs", type=int, required=False
+    )
+    parser.add_pattern(
+        "expansions", r"Expanded: (.*)\n", type=int, required=False
+    )
+    parser.add_pattern(
+        "generated", r"Generated: (.*)\n", type=int, required=False
+    )
+    # parser.add_function(parse_expansions_per_second)
+    return parser
 
 def solver_attributes():
     return [
         #Attribute("solution"),
         Attribute("wallclocktime"),
         Attribute("systemtime"),
+        #Attribute("meantime", function=arithmetic_mean),
+        Attribute("expansions"),
+        #Attribute("exppersec", function=arithmetic_mean),
+        Attribute("generated"),
+    ]
+
+def solver_attributes():
+    return [
+        #Attribute("solution"),
+        Attribute("wallclocktime"),
+        Attribute("systemtime"),
+        Attribute("solvertime"),
+        Attribute("retrievingtime"),
         #Attribute("meantime", function=arithmetic_mean),
         Attribute("expansions"),
         #Attribute("exppersec", function=arithmetic_mean),
