@@ -20,8 +20,6 @@ public:
                           bool verbose);
     double HCost(const state &s1, const state &s2) const;
     std::vector<LexPermutationPDB<state, actions, environment>> heuristicVec;
-    static long timeSpentSolving;
-    static long timeSpentRetrieving;
 private:
     mutable LPSolver lpSolver;
     int computeNZS(std::vector<std::vector<int>> &patterns);
@@ -53,27 +51,15 @@ PHOHeuristic<state, actions, environment>
 template <class state, class actions, class environment>
 double PHOHeuristic<state, actions, environment>::HCost(const state &s1, const state &s2) const
 {
-    auto start = std::chrono::system_clock::now();
+
     std::vector<double> rhs;
     for (const LexPermutationPDB<state, actions, environment> &h : heuristicVec) {
         double hCost = h.HCost(s1, s2);
         rhs.push_back(hCost);
     }
-    auto mid = std::chrono::system_clock::now();
+
     double result = lpSolver.solve(rhs);
-    auto end = std::chrono::system_clock::now();
-    auto diff = std::chrono::duration_cast<std::chrono::microseconds>(mid - start);
-    auto diff2 = std::chrono::duration_cast<std::chrono::microseconds>(end - mid);
-    timeSpentSolving += diff2.count();
-    timeSpentRetrieving += diff.count();
     return result;
 }
-
-// Static member definitions
-template<class state, class actions, class environment>
-long PHOHeuristic<state, actions, environment>::timeSpentSolving = 0;
-
-template<class state, class actions, class environment>
-long PHOHeuristic<state, actions, environment>::timeSpentRetrieving = 0;
 
 #endif //STP_PHO_SOLVER_PHOHEURISTIC_H

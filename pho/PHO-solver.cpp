@@ -136,8 +136,6 @@ int main(int argc, char *argv[]) {
     auto end = std::chrono::system_clock::now();
     auto diff = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
     std::cout << "System time: " << diff.count() << " μs" << std::endl;
-    std::cout << "Solving: " << PHOHeuristic<STATE, slideDir, ENVIRONMENT>::timeSpentSolving << " μs" << std::endl;
-    std::cout << "Retrieving: " << PHOHeuristic<STATE, slideDir, ENVIRONMENT>::timeSpentRetrieving << " μs" << std::endl;
 
     // Print Solution
     std::cout << "Solution: ";
