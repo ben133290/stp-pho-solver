@@ -21,12 +21,12 @@ exp = PhOExperiment(exp_type=ExpType.PHO, environment=ENV)
 # Add custom parser.
 exp.add_parser(solver_parser())
 
-collections = add_from_file("PDBList-Connectedness3.txt")
+collections = add_from_file("/infai/heuser0000/stp-pho-solver/experiments/PDBList-Connectedness4.txt")
 
 # exp.add_parser(ExitcodeParser())
-exp.add_algorithm("little connected", get_repo(), "10d91c9", "Release", [])
+exp.add_algorithm("not at all connected", get_repo(), "c48aecdf26cc5d57255b67f5766e51e4a4aa308f", "Release", [])
 
-exp.add_tasks([task + collection for task in get_heuser_for_range(0, 100) for collection in collections[200:400]])
+exp.add_tasks([task + collection for task in get_heuser_for_range(0, 50) for collection in collections[600:700]])
 
 # Make a report.
 exp.add_report(AbsoluteReport(attributes=solver_attributes()), outfile="report.html")

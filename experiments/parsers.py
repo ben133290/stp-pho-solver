@@ -25,6 +25,9 @@ def solver_parser():
     #    "meantime", r"System time: (.*) μs", type=int, required=False
     # )
     parser.add_pattern(
+        "memory", r"Peak memory: (.*) KB", type=int, required=False
+    )
+    parser.add_pattern(
         "expansions", r"Expanded: (.*)\n", type=int, required=False
     )
     parser.add_pattern(
@@ -69,9 +72,10 @@ def solver_attributes():
         Attribute("expansions"),
         #Attribute("exppersec", function=arithmetic_mean),
         Attribute("generated"),
+        Attribute("memory"),
     ]
 
-def solver_attributes():
+def solver_attributes_precise_time():
     return [
         #Attribute("solution"),
         Attribute("wallclocktime"),
