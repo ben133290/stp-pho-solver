@@ -31,40 +31,11 @@ class PhOAlgorithm:
         )
 
 
-class PDBGENRun(Run):
-    """An experiment run that uses *algo* to solve *task*.
-
-    See :py:class:`Run <lab.experiment.Run>` for inherited methods.
-
-    """
-
-    def __init__(self, exp: Experiment, algo: PhOAlgorithm, task: [str], time_limit, memory_limit):
-        super().__init__(exp)
-        options = algo.options[:]
-
-        solver = os.path.join(
-            exp.path,
-            algo.cached_revision.get_relative_exp_path("build/pdb_generator"),
-        )
-        self.add_command(
-            "pdb_generator",
-            [solver] + options + task,
-            time_limit=time_limit,
-            memory_limit=memory_limit)
-
-        self._set_properties(algo, options, task)
-
-    def _set_properties(self, algo, options, task):
-        self.set_property("algorithm", algo.name)
-        self.set_property("repo", algo.cached_revision.repo)
-        self.set_property("local_revision", algo.cached_revision.local_rev)
-        self.set_property("global_revision", algo.cached_revision.global_rev)
-        self.set_property("build_options", algo.cached_revision.build_options)
-        self.set_property("options", options)
-        self.set_property("problem", "_".join(task))
-        self.set_property("domain", "stp")
-        self.set_property("experiment_name", self.experiment.name)
-        self.set_property("id", [algo.name] + task)
+class ExpType(Enum):
+    PHO = 1
+    PDBGEN = 2
+    OPHO = 3
+    OGEN = 4
 
 
 class PhORun(Run):
@@ -74,19 +45,51 @@ class PhORun(Run):
 
     """
 
-    def __init__(self, exp: Experiment, algo: PhOAlgorithm, task: [str], time_limit, memory_limit):
+    def __init__(self, exp: Experiment, exp_type: ExpType, algo: PhOAlgorithm, task: [str], time_limit, memory_limit):
         super().__init__(exp)
         options = algo.options[:]
 
-        solver = os.path.join(
-            exp.path,
-            algo.cached_revision.get_relative_exp_path("build/pho_solver"),
-        )
-        self.add_command(
-            "pho_solver",
-            [solver] + options + task,
-            time_limit=time_limit,
-            memory_limit=memory_limit)
+        match exp_type:
+            case exp_type.PHO:
+                solver = os.path.join(
+                    exp.path,
+                    algo.cached_revision.get_relative_exp_path("build/pho_solver"),
+                )
+                self.add_command(
+                    "pho_solver",
+                    [solver] + options + task,
+                    time_limit=time_limit,
+                    memory_limit=memory_limit)
+            case exp_type.PDBGEN:
+                solver = os.path.join(
+                    exp.path,
+                    algo.cached_revision.get_relative_exp_path("build/pdb_generator"),
+                )
+                self.add_command(
+                    "pdb_generator",
+                    [solver] + options + task,
+                    time_limit=time_limit,
+                    memory_limit=memory_limit)
+            case exp_type.OGEN:
+                solver = os.path.join(
+                    exp.path,
+                    algo.cached_revision.get_relative_exp_path("build/offline_gen"),
+                )
+                self.add_command(
+                    "offline_gen",
+                    [solver] + options + task,
+                    time_limit=time_limit,
+                    memory_limit=memory_limit)
+            case exp_type.OPHO:
+                solver = os.path.join(
+                    exp.path,
+                    algo.cached_revision.get_relative_exp_path("build/opho_solver"),
+                )
+                self.add_command(
+                    "opho_solver",
+                    [solver] + options + task,
+                    time_limit=time_limit,
+                    memory_limit=memory_limit)
 
         self._set_properties(algo, options, task)
 
@@ -101,11 +104,6 @@ class PhORun(Run):
         self.set_property("domain", "stp")
         self.set_property("experiment_name", self.experiment.name)
         self.set_property("id", [algo.name] + task)
-
-
-class ExpType(Enum):
-    PHO = 1
-    PDBGEN = 2
 
 
 class PhOExperiment(Experiment):
@@ -178,13 +176,7 @@ class PhOExperiment(Experiment):
         self._cache_revisions()
         self._add_code()
 
-        match self._exp_type:
-            case ExpType.PHO:
-                self._add_pho_runs()
-            case ExpType.PDBGEN:
-                self._add_pdb_runs()
-            case _:
-                logging.critical("Unknown Experiment Type, couldn't match enum to add run function")
+        self._add_pho_runs()
 
         Experiment.build(self, **kwargs)
 
@@ -208,13 +200,11 @@ class PhOExperiment(Experiment):
         tasks = self._tasks
         for algo in self._algorithms.values():
             for task in tasks:
-                self.add_run(PhORun(self, algo, task, time_limit=self._time_limit, memory_limit=self._memory_limit))
-
-    def _add_pdb_runs(self):
-        tasks = self._tasks
-        for algo in self._algorithms.values():
-            for task in tasks:
-                self.add_run(PDBGENRun(self, algo, task, time_limit=self._time_limit, memory_limit=self._memory_limit))
+                self.add_run(PhORun(self, exp_type=self._exp_type,
+                                    algo=algo,
+                                    task=task,
+                                    time_limit=self._time_limit,
+                                    memory_limit=self._memory_limit))
 
 
 def get_repo():

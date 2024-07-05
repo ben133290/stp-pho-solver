@@ -23,13 +23,7 @@ public:
 private:
     mutable LPSolver lpSolver;
     int computeNZS(std::vector<std::vector<int>> &patterns);
-    std::vector<double> computeRHS(std::vector<std::vector<int>> &patterns);
 };
-
-template<class state, class actions, class environment>
-std::vector<double> PHOHeuristic<state, actions, environment>::computeRHS(std::vector<std::vector<int>> &patterns) {
-    return std::vector<double>(patterns.size());
-}
 
 template<class state, class actions, class environment>
 int PHOHeuristic<state, actions, environment>::computeNZS(std::vector<std::vector<int>> &patterns) {

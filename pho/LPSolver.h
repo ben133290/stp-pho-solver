@@ -16,6 +16,8 @@ public:
 
     double solve(const std::vector<double> &rhs);
 
+    std::vector<double> getDualSol(const std::vector<double> &rhs);
+
     static void handle_cplex_error(CPXENVptr env, int status);
 
     virtual ~LPSolver();

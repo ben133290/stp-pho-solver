@@ -111,3 +111,18 @@ void LPSolver::writeProblem() {
     const char * filename_str = "/infai/heuser0000/stp-pho-solver/build/problem.lp";
     CPX_CALL(CPXwriteprob, env, lp, filename_str, nullptr);
 }
+
+std::vector<double> LPSolver::getDualSol(const std::vector<double> &rhs) {
+    CPX_CALL(CPXchgrhs, env, lp, rhs.size(), indices.data(), rhs.data());
+    CPX_CALL(CPXlpopt, env, lp);
+    if (verbose) {
+        std::cout << "rhs: ";
+        for (double d : rhs) {
+            std::cout << d << " ";
+        }
+        std::cout << std::endl;
+    }
+    std::vector<double> result(rhs.size());
+    CPX_CALL(CPXgetpi, env, lp, result.data(), 0, rhs.size()-1);
+    return result;
+}
