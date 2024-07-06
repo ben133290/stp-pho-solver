@@ -37,7 +37,7 @@ add_executable(pdb_generator pho/PDB-generator.cpp
 add_executable(instances_maker pho/InstancesMaker.cpp
         hog2/environments/STPInstances.cpp)
 
-add_executable(offline-gen pho/OPHO-Gen.cpp
+add_executable(offline_gen pho/OPHO-Gen.cpp
         hog2/environments/STPInstances.cpp
         hog2/utils/NBitArray.cpp
         downward/system.cc
@@ -52,5 +52,5 @@ target_link_libraries(pdb_generator PUBLIC Threads::Threads)
 find_package(Cplex REQUIRED)
 target_link_libraries(pho_solver PRIVATE cplex::cplex)
 target_link_libraries(opho_solver PRIVATE cplex::cplex)
-target_link_libraries(offline-gen PRIVATE cplex::cplex)
+target_link_libraries(offline_gen PRIVATE cplex::cplex)
 
