@@ -17,7 +17,7 @@ add_executable(pho_solver pho/PHO-solver.cpp
         downward/system_unix.cc
         pho/SumHeuristic.h)
 
-add_executable(phosa_solver pho/PHOSA-solver.cpp
+add_executable(opho_solver pho/PHOSA-solver.cpp
         hog2/utils/Timer.cpp
         hog2/utils/NBitArray.cpp
         pho/PHOSAHeuristic.h
@@ -37,7 +37,7 @@ add_executable(pdb_generator pho/PDB-generator.cpp
 add_executable(instances_maker pho/InstancesMaker.cpp
         hog2/environments/STPInstances.cpp)
 
-add_executable(offline-Gen pho/OPHO-Gen.cpp
+add_executable(offline-gen pho/OPHO-Gen.cpp
         hog2/environments/STPInstances.cpp
         hog2/utils/NBitArray.cpp
         downward/system.cc
@@ -46,11 +46,11 @@ add_executable(offline-Gen pho/OPHO-Gen.cpp
 
 find_package(Threads REQUIRED)
 target_link_libraries(pho_solver PUBLIC Threads::Threads)
-target_link_libraries(phosa_solver PUBLIC Threads::Threads)
+target_link_libraries(opho_solver PUBLIC Threads::Threads)
 target_link_libraries(pdb_generator PUBLIC Threads::Threads)
 
 find_package(Cplex REQUIRED)
 target_link_libraries(pho_solver PRIVATE cplex::cplex)
-target_link_libraries(phosa_solver PRIVATE cplex::cplex)
-target_link_libraries(offline-Gen PRIVATE cplex::cplex)
+target_link_libraries(opho_solver PRIVATE cplex::cplex)
+target_link_libraries(offline-gen PRIVATE cplex::cplex)
 
