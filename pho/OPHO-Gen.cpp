@@ -105,6 +105,8 @@ int main(int argc, char *argv[]) {
     app.add_option("-r", generate_random, "is random");
     std::string file_path = "/infai/heuser0000/opho.txt";
     app.add_option("-f", file_path, "file path");
+    bool optimization_one = false;
+    app.add_option("-o", optimization_one, "optimize set of PDBS");
 
     CLI11_PARSE(app, argc, argv);
 
@@ -153,6 +155,24 @@ int main(int argc, char *argv[]) {
         }
         std::cout << std::endl;
         weights.push_back(weight_line);
+    }
+
+    double epsilon = 0.001;
+    if (optimization_one) {
+        for (int i = 0; i < patterns.size(); i++) {
+            bool has_nonzero = false;
+            for (std::vector<double> weight_line : weights) {
+                if (weight_line[i] > epsilon) {
+                    has_nonzero = true;
+                }
+            }
+            if (!has_nonzero) {
+                patterns.erase(patterns.begin()+i);
+                for (std::vector<double> & weight_line : weights) {
+                    weight_line.erase(weight_line.begin()+i);
+                }
+            }
+        }
     }
 
     std::cout << "Size of weights vector" << weights.size();
