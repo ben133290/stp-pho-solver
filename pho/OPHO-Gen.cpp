@@ -140,7 +140,6 @@ int main(int argc, char *argv[]) {
     LPSolver lpSolver(patterns.size(), 15, computeNZS(patterns), patterns, false);
     std::vector<std::vector<double>> weights;
     weights.reserve(sample_states.size());
-    std::cout << "Size of weights vector" << weights.size();
     std::cout << "states:" << std::endl;
     for (MNPuzzleState<4,4> & sample_state : sample_states) {
         std::cout << sample_state << std::endl;
@@ -159,11 +158,12 @@ int main(int argc, char *argv[]) {
 
     double epsilon = 0.001;
     if (optimization_one) {
-        for (int i = 0; i < patterns.size(); i++) {
+        for (int i = patterns.size()-1; i >= 0; i--) {
             bool has_nonzero = false;
             for (std::vector<double> weight_line : weights) {
                 if (weight_line[i] > epsilon) {
                     has_nonzero = true;
+                    break;
                 }
             }
             if (!has_nonzero) {
@@ -175,7 +175,6 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    std::cout << "Size of weights vector" << weights.size();
     std::ofstream output_file;
     output_file.open(file_path);
     std::cout << "saving to: " << file_path << std::endl;
