@@ -79,6 +79,7 @@ int main(int argc, char *argv[]) {
     MNPuzzleState<GRID_SIZE, GRID_SIZE> input;
     IDAStar<MNPuzzleState<GRID_SIZE, GRID_SIZE>, slideDir, false> idaStar;
     utils::register_event_handlers();
+    std::string pattern_list_path;
 
     // CLI
     CLI::App app{"Post hoc optimization solver for sliding tile puzzle"};
@@ -87,6 +88,7 @@ int main(int argc, char *argv[]) {
     app.add_option("--pdbPathPrefix", pdbPath, "Specify the path to the directory where your"
                                                " .pdb files are located")
                                                ->default_val("/infai/heuser0000/stp-pho-solver/PDBFILES/");
+    app.add_option("-f", pattern_list_path, "Specify the path to the directory where your weights are");
     app.add_option("-v", verbose, "If used, debugging printouts are enabled")->default_val(false);
     app.add_option("-k", korfIndex, "Use given korf instance as start state. Must be in range 0-99");
     app.add_option("-H", useHeuser, "Use given heuser instance as start state. Must be in range 0-99");
@@ -129,7 +131,7 @@ int main(int argc, char *argv[]) {
 
     std::vector<LexPermutationPDB<MNPuzzleState<GRID_SIZE, GRID_SIZE>, slideDir, MNPuzzle<GRID_SIZE, GRID_SIZE>>> heuristicVec;
 
-    load_patterns_and_weights(patterns, weights, "/infai/heuser0000/stp-pho-solver/opho.txt");
+    load_patterns_and_weights(patterns, weights, pattern_list_path);
     load_pdb_heuristics(verbose, patterns, mnp, goal, heuristicVec);
 
 
