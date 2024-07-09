@@ -26,7 +26,7 @@ exp.add_parser(solver_parser())
 exp.add_algorithm("OPHO", get_repo(),
                   "fe4a397",
                   "Debug",
-                  "-f /infai/heuser0000/stp-pho-solver/opho_01_6.txt".split())
+                  "-f /infai/heuser0000/stp-pho-solver/opho_01_100.txt".split())
 
 exp.add_tasks(get_korf_for_range(0, 100))
 
