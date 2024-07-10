@@ -28,6 +28,14 @@ int LoadSTPPDB(LexPermutationPDB<MNPuzzleState<4, 4>, slideDir, MNPuzzle<4, 4>> 
     return 1;
 }
 
+double weighted_sum(std::vector<double> &a, std::vector<double> &b) {
+    double result = 0;
+    for (int i = 0; i < a.size(); i++) {
+        result += a[i] * b[i];
+    }
+    return result;
+}
+
 void walk_random_states(const int start, const int end, const int m, std::vector<MNPuzzleState<4,4>> &sample_states) {
     sample_states.reserve((end-start) * m);
     for (int i = start; i < end; i++) {
@@ -107,10 +115,15 @@ int main(int argc, char *argv[]) {
     app.add_option("-f", file_path, "file path");
     bool optimization_one = false;
     app.add_option("-o", optimization_one, "optimize set of PDBS");
+    bool optimization_two = false;
+    app.add_option("-O", optimization_two, "optimize set of weights");
 
     CLI11_PARSE(app, argc, argv);
 
     std::vector<MNPuzzleState<4,4>> sample_states;
+
+    // Remember rhs values
+    std::vector<std::vector<double>> pdb_heuristics_for_states;
 
     if (generate_random) {
         sample_states.reserve(generate_random);
@@ -146,6 +159,9 @@ int main(int argc, char *argv[]) {
             // Free memory of PDB
             // TODO
         }
+        if (optimization_two) {
+            pdb_heuristics_for_states.push_back(rhs);
+        }
         std::vector<double> weight_line = lpSolver.getDualSol(rhs);
         for (double weight : weight_line) {
             std::cout << weight << " ";
@@ -168,6 +184,21 @@ int main(int argc, char *argv[]) {
                 patterns.erase(patterns.begin()+i);
                 for (std::vector<double> & weight_line : weights) {
                     weight_line.erase(weight_line.begin()+i);
+                    if (optimization_two) {
+                        pdb_heuristics_for_states.erase(pdb_heuristics_for_states.begin()+i);
+                    }
+                }
+            }
+        }
+    }
+
+    if (optimization_two) {
+        for (int i = weights.size()-1; i >= 0; i--) {
+            double value_curr = weighted_sum(weights[i], pdb_heuristics_for_states[i]);
+            for (int j = i - 1; j >= 0; j--) {
+                if (weighted_sum(weights[j], pdb_heuristics_for_states[i]) == value_curr) {
+                    weights.erase(weights.begin()+i);
+                    pdb_heuristics_for_states.erase(pdb_heuristics_for_states.begin()+i);
                 }
             }
         }
