@@ -121,21 +121,9 @@ int main(int argc, char *argv[]) {
         walk_random_states(start, walklength, num_inst_per_walk, sample_states);
     }
 
-    std::vector<LexPermutationPDB<MNPuzzleState<4, 4>, slideDir, MNPuzzle<4, 4>>> heuristicVec;
+    LexPermutationPDB<MNPuzzleState<4, 4>, slideDir, MNPuzzle<4, 4>> pdb();
     MNPuzzle<4, 4> mnp;
     MNPuzzleState<4, 4> goal;
-
-    heuristicVec.reserve(patterns.size());
-    for (const std::vector<int> &pattern: patterns) {
-        // Load PDB
-        LexPermutationPDB<MNPuzzleState<4, 4>, slideDir, MNPuzzle<4, 4>> permutationPdb(
-                &mnp, goal, pattern);
-        if (LoadSTPPDB(permutationPdb)) {
-            std::cout << "ERROR: Couldn't load pattern" << std::endl;
-            utils::exit_with(utils::ExitCode::SEARCH_INPUT_ERROR);
-        }
-        heuristicVec.push_back(permutationPdb);
-    }
 
     LPSolver lpSolver(patterns.size(), 15, computeNZS(patterns), patterns, false);
     std::vector<std::vector<double>> weights;
@@ -146,7 +134,17 @@ int main(int argc, char *argv[]) {
         std::vector<double> rhs;
         rhs.reserve(patterns.size());
         for (int j = 0; j < patterns.size(); j++) {
-            rhs.push_back(heuristicVec[j].HCost(sample_state, goal));
+            // Load PDB
+            LexPermutationPDB<MNPuzzleState<4, 4>, slideDir, MNPuzzle<4, 4>> permutationPdb(
+                    &mnp, goal, patterns[j]);
+            if (LoadSTPPDB(permutationPdb)) {
+                std::cout << "ERROR: Couldn't load pattern" << std::endl;
+                utils::exit_with(utils::ExitCode::SEARCH_INPUT_ERROR);
+            }
+            // Solve for state
+            rhs.push_back(permutationPdb.HCost(sample_state, goal));
+            // Free memory of PDB
+            // TODO
         }
         std::vector<double> weight_line = lpSolver.getDualSol(rhs);
         for (double weight : weight_line) {
