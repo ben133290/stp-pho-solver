@@ -34,7 +34,9 @@ double PHOSAHeuristic<state, actions, environment>::weighted_sum(
         const state &s2) const {
     double result = 0;
     for (int i = 0; i < weight_vec.size(); i++) {
-        result += weight_vec[i] * pdb_heuristics[i].HCost(puzzle_state, s2);
+        if (weight_vec[i] > 0) {
+            result += weight_vec[i] * pdb_heuristics[i].HCost(puzzle_state, s2);
+        }
     }
     return result;
 }
