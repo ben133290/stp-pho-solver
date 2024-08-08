@@ -4,7 +4,7 @@ TILE_COLOR = (0, 0, 0)
 NO_TILE_COLOR = (200, 200, 200)
 BACKGROUND = (255, 255, 255)
 BLANK = (0, 255, 100)
-IMAGE_SIZE = 640
+IMAGE_SIZE = 6
 
 
 def create_sliding_tile_image(pattern, filename):
@@ -14,13 +14,16 @@ def create_sliding_tile_image(pattern, filename):
         if tile != 0:  # don't draw blank
             x, y = tile % 4, tile // 4
             image.putpixel((x, y), TILE_COLOR)
+        else:
+            x, y = tile % 4, tile // 4
+            image.putpixel((x, y), BLANK)
 
     large_image = image.resize((IMAGE_SIZE, IMAGE_SIZE), Image.Resampling.NEAREST)
     large_image.save(filename, "PNG")
 
 
-def create_sliding_tile_image_full(patterns, filename):
-    image = Image.new('RGB', (4 * 10 + 1, 4 * 10 + 1), BACKGROUND)
+def create_sliding_tile_image_full(patterns, filename, width, height):
+    image = Image.new('RGB', (width, height), BACKGROUND)
 
     x_offset = 1
     y_offset = 1
@@ -38,11 +41,11 @@ def create_sliding_tile_image_full(patterns, filename):
                 image.putpixel((x_offset + x, y_offset + y), NO_TILE_COLOR)
 
         x_offset += 5
-        if x_offset >= 4 * 10:
+        if x_offset + 4 >= width:
             x_offset = 1
             y_offset += 5
 
-    large_image = image.resize((IMAGE_SIZE, IMAGE_SIZE), Image.Resampling.NEAREST)
+    large_image = image#.resize((IMAGE_SIZE*width, IMAGE_SIZE*height), Image.Resampling.NEAREST)
     large_image.save(filename, "PNG")
 
 
@@ -72,9 +75,9 @@ def fun1(patterns):
 
 
 def fun2(patterns):
-    create_sliding_tile_image_full(patterns, "patterns.png")
+    create_sliding_tile_image_full(patterns, "patterns100.png", width=20*5+1, height=22*5+1)
 
 
 if __name__ == '__main__':
-    patterns = read_patterns("../opho_01_6.txt")
+    patterns = read_patterns("../opho_01_100.txt")
     fun2(patterns)

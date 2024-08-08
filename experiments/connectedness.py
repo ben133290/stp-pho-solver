@@ -92,6 +92,19 @@ def connected_experiment_fun(filename: str = "/infai/heuser0000/stp-pho-solver/e
         append_to_file(filename, "")
 
 
+def get_patterns_with_connectedness_score_n(
+        filename: str = "/infai/heuser0000/stp-pho-solver/experiments/PDBList-Connectedness.txt",
+        pattern_size: int = 6,
+        score: int = 0
+):
+    all_patterns: list[tuple[int, list]] = get_patterns_with_connectedness(pattern_size)
+
+    patterns_with_connectedness_n = list(filter(lambda x: getKey(x) == score, all_patterns))
+
+    for pattern_with_con in patterns_with_connectedness_n:
+        append_to_file(filename,
+            " ".join(transform_int_list_to_string_list(get_pattern_from_pair(pattern_with_con))))
+
 def build_connectedness_plots():
     x = range(0, 9)
     y = [get_connectedness_data(7).count(i) for i in range(0, 9)]
@@ -112,5 +125,4 @@ def build_connectedness_plots():
 
 
 if __name__ == '__main__':
-    connected_experiment_fun("/infai/heuser0000/stp-pho-solver/experiments/PDBList-Connectedness4.txt")
-    print(add_from_file("/infai/heuser0000/stp-pho-solver/experiments/PDBList-Connectedness2.txt")[1])
+    get_patterns_with_connectedness_score_n(filename="/infai/heuser0000/stp-pho-solver/connectedness7-top.txt", pattern_size=7, score=8)

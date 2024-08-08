@@ -51,21 +51,19 @@ exp = PhOExperiment(exp_type=ExpType.PDBGEN, environment=ENV)
 exp.add_algorithm("additive-pdb-gen", get_repo(), "f6e363c", "Debug",
                   ["--path", "/infai/heuser0000/stp-pho-solver/PDBFILES"])
 
+
+
+
 patterns = [
-    build_pattern_list("1 2 3 4 5 6 7", False),
-    build_pattern_list("8 9 10 11 12 13 14 15", False),
-    build_pattern_list("1 4 5 8 9 12 13", False),
-    build_pattern_list("2 3 6 7 10 11 14 15", False),
-    build_pattern_list("1 3 5 7 9 11 13 15", False),
-    build_pattern_list("2 4 6 8 10 12 14", False),
-    build_pattern_list("1 2 3 8 9 10 11", False),
-    build_pattern_list("4 5 6 7 12 13 14 15", False),
-    build_pattern_list("1 4 5 10 11 14 15", False),
-    build_pattern_list("2 3 6 7 8 9 12 13", False),
-    build_pattern_list("2 5 7 8 10 13 15", False),
-    build_pattern_list("1 3 4 6 9 11 12 14", False),
-    build_pattern_list("1 3 5 7 8 10 12 14", False),
-    build_pattern_list("2 4 6 9 11 13 15", False)
+    build_pattern_list("1 2 3 4 5 6 8", False),
+    build_pattern_list("1 5 6 9 10 13 14", False),
+    build_pattern_list("2 3 4 6 7 10 11", False),
+    build_pattern_list("3 4 7 8 9 12 13", False),
+    build_pattern_list("4 6 7 8 9 10 11", False),
+    build_pattern_list("5 6 7 9 10 11 12", False),
+    build_pattern_list("6 7 8 9 11 12 13", False),
+    build_pattern_list("7 8 9 10 11 14 15", False),
+    build_pattern_list("8 9 10 11 13 14 15", False),
 ]
 
 exp.add_tasks(patterns)
